@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đinh Thanh Hải — Editor & Filmmaker</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060608;
+      --glass: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+      --glass-hover: rgba(255,255,255,0.1);
+      --text: #f0f0f5;
+      --muted: rgba(240,240,245,0.5);
+      --accent: #a78bfa;
+      --accent2: #60a5fa;
+      --glow: rgba(167,139,250,0.3);
+      --font: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Animated Background ── */
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #7c3aed, transparent 70%);
+      top: -200px; left: -150px;
+      animation-delay: 0s;
+    }
+    .orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #1d4ed8, transparent 70%);
+      top: 30%; right: -100px;
+      animation-delay: -6s;
+    }
+    .orb-3 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #6d28d9, transparent 70%);
+      bottom: 10%; left: 20%;
+      animation-delay: -12s;
+    }
+    .orb-4 {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, #0ea5e9, transparent 70%);
+      bottom: -100px; right: 30%;
+      animation-delay: -3s;
+    }
+
+    @keyframes drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(40px, -60px) scale(1.05); }
+      66%  { transform: translate(-30px, 40px) scale(0.95); }
+      100% { transform: translate(20px, -20px) scale(1.02); }
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    section { padding: 100px 0; }
+
+    /* ── Glass Card ── */
+    .glass {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    /* Spotlight border effect */
+    .glass::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: radial-gradient(
+        400px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(255,255,255,0.55),
+        rgba(167,139,250,0.25) 40%,
+        transparent 70%
+      );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .glass:hover::before {
+      opacity: 1;
+    }
+
+    /* Inner glow khi hover */
+    .glass::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        300px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(167,139,250,0.07),
+        transparent 60%
+      );
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .glass:hover::after {
+      opacity: 1;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: rgba(10,10,15,0.6);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(30px) saturate(200%);
+      -webkit-backdrop-filter: blur(30px) saturate(200%);
+      border-radius: 100px;
+      padding: 12px 32px;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+    nav .logo {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      margin-right: 16px;
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 28px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(167,139,250,0.12);
+      border: 1px solid rgba(167,139,250,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero-badge span { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease infinite; display: inline-block; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-name {
+      font-size: clamp(48px, 8vw, 88px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      background: linear-gradient(135deg, #fff 0%, rgba(167,139,250,0.9) 50%, rgba(96,165,250,0.8) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title {
+      font-size: clamp(20px, 3vw, 28px);
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-title strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-desc {
+      max-width: 560px;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px var(--glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px var(--glow);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--text);
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-ghost:hover {
+      background: var(--glass-hover);
+      transform: translateY(-2px);
+    }
+
+    /* ── Section Header ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.65;
+    }
+
+    /* ── About ── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .about-card {
+      padding: 36px;
+    }
+
+    .about-main {
+      grid-column: 1 / 2;
+    }
+
+    .about-main p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: rgba(240,240,245,0.75);
+      margin-bottom: 16px;
+    }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stat-item {
+      padding: 24px 28px;
+    }
+
+    .stat-num {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── Skills ── */
+    #skills .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 60px;
+    }
+
+    .skill-card {
+      padding: 28px 24px;
+      text-align: center;
+      transition: transform 0.25s, background 0.25s;
+      cursor: default;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      background: var(--glass-hover);
+    }
+
+    .skill-icon {
+      font-size: 36px;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .skill-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .skill-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .skill-bar-wrap {
+      margin-top: 14px;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .skill-bar {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform-origin: left;
+      animation: barIn 1s ease forwards;
+    }
+
+    @keyframes barIn {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    /* ── Projects ── */
+    #projects .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px var(--glow);
+    }
+
+    .project-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-thumb-bg {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      transition: transform 0.4s;
+    }
+
+    .project-card:hover .project-thumb-bg {
+      transform: scale(1.08);
+    }
+
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6,6,8,0.9) 0%, transparent 60%);
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover .project-overlay {
+      opacity: 1;
+    }
+
+    .project-overlay-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      background: rgba(167,139,250,0.15);
+      border: 1px solid rgba(167,139,250,0.3);
+      border-radius: 100px;
+      padding: 5px 14px;
+    }
+
+    .project-info {
+      padding: 20px;
+    }
+
+    .project-cat {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .project-name {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* Featured project */
+    .project-card.featured {
+      grid-column: 1 / 3;
+    }
+
+    .project-card.featured .project-thumb {
+      aspect-ratio: 21/9;
+    }
+
+    .project-card.featured .project-thumb-bg {
+      font-size: 72px;
+    }
+
+    /* ── Contact ── */
+    #contact .contact-wrap {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .contact-card {
+      padding: 40px;
+    }
+
+    .contact-card p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .contact-link:hover {
+      background: var(--glass-hover);
+      transform: translateX(4px);
+    }
+
+    .contact-link-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: rgba(167,139,250,0.15);
+      border: 1px solid rgba(167,139,250,0.2);
+      flex-shrink: 0;
+    }
+
+    .contact-form {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      resize: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: rgba(167,139,250,0.5);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .form-group textarea { height: 130px; }
+
+    .btn-send {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      font-family: var(--font);
+    }
+
+    .btn-send:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 40px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name {
+      font-weight: 700;
+      font-size: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── Fade-in on scroll ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 10px 20px; gap: 20px; }
+      nav a { font-size: 13px; }
+
+      #about .about-grid { grid-template-columns: 1fr; }
+      .about-main { grid-column: 1; }
+      .about-stats { flex-direction: row; }
+      .stat-item { flex: 1; }
+
+      #projects .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: 1; }
+      .project-card.featured .project-thumb { aspect-ratio: 16/9; }
+
+      #contact .contact-wrap { grid-template-columns: 1fr; }
+
+      .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .about-stats { flex-direction: column; }
+      nav .logo { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background Orbs -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <span class="logo">DTH</span>
+  <a href="#about">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#projects">Projects</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span></span> Available for projects
+      </div>
+      <h1 class="hero-name">Đinh Thanh Hải</h1>
+      <p class="hero-title"><strong>Editor & Filmmaker</strong> — Creative Visual Storyteller</p>
+      <p class="hero-desc">
+        5 năm kinh nghiệm trong sản xuất video, thiết kế đồ hoạ và làm phim.
+        Tôi biến ý tưởng thành những câu chuyện hình ảnh có chiều sâu và cảm xúc.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">Xem Projects ↓</a>
+        <a href="#contact" class="btn-ghost">Liên hệ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Đam mê — Sáng tạo — Kể chuyện</h2>
+      <p class="section-sub">Tôi là một editor và filmmaker với tình yêu sâu sắc dành cho hình ảnh và cảm xúc.</p>
+    </div>
+    <div class="about-grid">
+      <div class="glass about-card about-main reveal">
+        <p>
+          Với hơn 5 năm trong ngành sản xuất nội dung, tôi đã trải qua nhiều vai trò từ
+          dựng phim, thiết kế đồ hoạ đến tạo nội dung số. Tôi tìm kiếm sự cộng tác
+          sáng tạo và những thử thách mang lại cơ hội phát triển nghề nghiệp.
+        </p>
+        <p>
+          Từng làm việc trên các dự án đa dạng — từ video ngắn trên YouTube, animation,
+          đến các chiến dịch thiết kế trực quan — tôi luôn mang tới góc nhìn tươi mới
+          và sự tỉ mỉ trong từng khung hình.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="glass stat-item reveal">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Năm kinh nghiệm</div>
+        </div>
+        <div class="glass stat-item reveal">
+          <div class="stat-num">12+</div>
+          <div class="stat-label">Dự án Graphic Design</div>
+        </div>
+        <div class="glass stat-item reveal">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Lĩnh vực chuyên môn</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Expertise</p>
+      <h2 class="section-title">Kỹ năng</h2>
+      <p class="section-sub">Đa năng trong sáng tạo nội dung — từ hình ảnh đến chuyển động.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="glass skill-card reveal">
+        <span class="skill-icon">🎬</span>
+        <div class="skill-name">Video Editing</div>
+        <div class="skill-desc">Dựng phim chuyên nghiệp, colour grading, storytelling qua hình ảnh</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:92%"></div></div>
+      </div>
+      <div class="glass skill-card reveal">
+        <span class="skill-icon">🎥</span>
+        <div class="skill-name">Filmmaking</div>
+        <div class="skill-desc">Sản xuất video từ quay phim đến hậu kỳ hoàn chỉnh</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+      </div>
+      <div class="glass skill-card reveal">
+        <span class="skill-icon">🎨</span>
+        <div class="skill-name">Graphic Design</div>
+        <div class="skill-desc">Thiết kế trực quan, branding, layout ấn tượng</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div>
+      </div>
+      <div class="glass skill-card reveal">
+        <span class="skill-icon">✨</span>
+        <div class="skill-name">Animation</div>
+        <div class="skill-desc">Motion graphics, 2D animation, hiệu ứng chuyển động mượt</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div>
+      </div>
+      <div class="glass skill-card reveal">
+        <span class="skill-icon">📱</span>
+        <div class="skill-name">Content Creation</div>
+        <div class="skill-desc">Sáng tạo nội dung số cho YouTube, mạng xã hội</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div>
+      </div>
+      <div class="glass skill-card reveal">
+        <span class="skill-icon">🎵</span>
+        <div class="skill-name">Sound Design</div>
+        <div class="skill-desc">Mixing âm thanh, chọn nhạc nền phù hợp cảm xúc</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Work</p>
+      <h2 class="section-title">Projects</h2>
+      <p class="section-sub">Một số dự án tiêu biểu trong hành trình sáng tạo của tôi.</p>
+    </div>
+    <div class="projects-grid">
+
+      <!-- Featured -->
+      <div class="project-card featured reveal">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #1e1b4b, #312e81, #1d4ed8);">🎬</div>
+          <div class="project-overlay">
+            <span class="project-overlay-label">Xem Project →</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-cat">Video Production</div>
+          <div class="project-name">HTVKIDS — YouTube Channel</div>
+          <div class="project-desc">Sản xuất và biên tập nội dung video cho kênh YouTube thiếu nhi, bao gồm dựng phim, motion graphics và quản lý nội dung.</div>
+        </div>
+      </div>
+
+      <!-- Graphic Design -->
+      <div class="project-card reveal">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #4c1d95, #7c3aed, #a78bfa);">🎨</div>
+          <div class="project-overlay">
+            <span class="project-overlay-label">Xem Design →</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-cat">Graphic Design</div>
+          <div class="project-name">Visual Design Collection</div>
+          <div class="project-desc">Bộ sưu tập 12+ thiết kế đồ hoạ đa dạng — từ poster, branding đến social media content.</div>
+        </div>
+      </div>
+
+      <!-- Animation -->
+      <div class="project-card reveal">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #0c4a6e, #0369a1, #38bdf8);">✨</div>
+          <div class="project-overlay">
+            <span class="project-overlay-label">Xem Animation →</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-cat">Animation</div>
+          <div class="project-name">Motion Graphics Projects</div>
+          <div class="project-desc">Các dự án animation 2D và motion graphics với hiệu ứng chuyển động mượt mà và sáng tạo.</div>
+        </div>
+      </div>
+
+      <!-- Short Film -->
+      <div class="project-card reveal">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #1f2937, #374151, #6b7280);">🎥</div>
+          <div class="project-overlay">
+            <span class="project-overlay-label">Xem Phim →</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-cat">Filmmaking</div>
+          <div class="project-name">Short Film Production</div>
+          <div class="project-desc">Sản xuất phim ngắn độc lập — từ kịch bản, đạo diễn đến hậu kỳ hoàn chỉnh.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Get in Touch</p>
+      <h2 class="section-title">Liên hệ</h2>
+      <p class="section-sub">Bạn có dự án thú vị? Hãy nói chuyện với tôi.</p>
+    </div>
+    <div class="contact-wrap">
+      <div class="glass contact-card reveal">
+        <p>
+          Tôi luôn sẵn sàng cho những cơ hội hợp tác mới — từ dự án freelance,
+          full-time, đến cộng tác sáng tạo. Đừng ngại liên hệ!
+        </p>
+        <div class="contact-links">
+          <a href="mailto:anubistar2@gmail.com" class="contact-link">
+            <div class="contact-link-icon">✉️</div>
+            anubistar2@gmail.com
+          </a>
+          <a href="https://thanhhai2003d.wixstudio.com/portfolio" target="_blank" class="contact-link">
+            <div class="contact-link-icon">🌐</div>
+            Wix Portfolio
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-link-icon">▶️</div>
+            YouTube — HTVKIDS
+          </a>
+        </div>
+      </div>
+      <div class="glass contact-form reveal">
+        <div class="form-group">
+          <label>Tên của bạn</label>
+          <input type="text" placeholder="Nguyễn Văn A" />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="email@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Tin nhắn</label>
+          <textarea placeholder="Mô tả dự án hoặc lời nhắn của bạn..."></textarea>
+        </div>
+        <button class="btn-send">Gửi tin nhắn →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-name">Đinh Thanh Hải</span>
+      <span class="footer-copy">© 2024 · Editor & Filmmaker · Ho Chi Minh City</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.style.color = '');
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (active) active.style.color = 'rgba(240,240,245,1)';
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => navObserver.observe(s));
+
+  // Spotlight border on glass cards
+  document.querySelectorAll('.glass').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      el.style.setProperty('--mx', `${x}%`);
+      el.style.setProperty('--my', `${y}%`);
+    });
+  });
+
+  // Contact form
+  document.querySelector('.btn-send').addEventListener('click', () => {
+    const btn = document.querySelector('.btn-send');
+    btn.textContent = '✓ Đã gửi!';
+    btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    setTimeout(() => {
+      btn.textContent = 'Gửi tin nhắn →';
+      btn.style.background = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>
