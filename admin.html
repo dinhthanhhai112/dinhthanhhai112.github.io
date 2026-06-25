@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Liên hệ</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #060608; --glass: rgba(255,255,255,0.06); --border: rgba(255,255,255,0.12);
+      --text: #f0f0f5; --muted: rgba(240,240,245,0.5); --accent: #a78bfa; --accent2: #60a5fa;
+      --green: #34d399; --font: -apple-system,"SF Pro Display","Helvetica Neue",sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.2; animation: drift 18s ease-in-out infinite alternate; }
+    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle,#7c3aed,transparent 70%); top: -100px; right: -50px; }
+    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle,#1d4ed8,transparent 70%); bottom: 0; left: -50px; animation-delay: -8s; }
+    @keyframes drift { 0%{transform:translate(0,0);}100%{transform:translate(30px,-40px);} }
+
+    /* Login screen */
+    #login-screen {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .login-box {
+      background: rgba(10,10,15,0.8);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+      border-radius: 24px; padding: 48px 40px; width: 360px; text-align: center;
+    }
+    .login-logo { font-size: 32px; margin-bottom: 8px; }
+    .login-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .login-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+    .login-input {
+      width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 18px; color: var(--text); font-size: 15px;
+      font-family: var(--font); outline: none; margin-bottom: 12px; transition: border 0.2s;
+    }
+    .login-input:focus { border-color: var(--accent); }
+    .login-btn {
+      width: 100%; padding: 14px; border-radius: 12px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; font-size: 15px; font-weight: 600; font-family: var(--font);
+      transition: opacity 0.2s;
+    }
+    .login-btn:hover { opacity: 0.9; }
+    .login-error { color: #f87171; font-size: 13px; margin-top: 10px; display: none; }
+
+    /* Main admin */
+    #admin-screen { display: none; position: relative; z-index: 1; }
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(6,6,8,0.8); border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .topbar-logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .topbar-sub { font-size: 13px; color: var(--muted); }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .logout-btn {
+      padding: 8px 18px; border-radius: 100px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); font-size: 13px; cursor: pointer;
+      font-family: var(--font); transition: all 0.2s;
+    }
+    .logout-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+    .refresh-btn {
+      padding: 8px 18px; border-radius: 100px; border: none;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+      color: #fff; font-size: 13px; cursor: pointer; font-family: var(--font);
+      transition: opacity 0.2s;
+    }
+    .refresh-btn:hover { opacity: 0.85; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 32px; }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 40px; }
+    .stat-card {
+      background: var(--glass); border: 1px solid var(--border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px; padding: 24px 28px;
+    }
+    .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .stat-value { font-size: 32px; font-weight: 800; background: linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* Table */
+    .table-wrap {
+      background: var(--glass); border: 1px solid var(--border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px; overflow: hidden;
+    }
+    .table-header {
+      padding: 20px 28px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .table-title { font-size: 17px; font-weight: 700; }
+    .table-count { font-size: 13px; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 600;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02);
+    }
+    tbody tr { border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.04); }
+    tbody td { padding: 16px 20px; font-size: 14px; vertical-align: top; }
+    .td-time { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .td-name { font-weight: 600; }
+    .td-email a { color: var(--accent2); text-decoration: none; }
+    .td-email a:hover { text-decoration: underline; }
+    .td-msg { color: rgba(240,240,245,0.8); max-width: 380px; line-height: 1.5; }
+    .new-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 100px;
+      background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.3);
+      color: var(--green); font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; margin-left: 8px; vertical-align: middle;
+    }
+
+    /* Empty / Loading state */
+    .empty-state { text-align: center; padding: 80px 40px; }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+    .empty-text { color: var(--muted); font-size: 15px; }
+    .loading { text-align: center; padding: 60px; color: var(--muted); }
+    .spinner {
+      width: 28px; height: 28px; border: 2px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Setup notice */
+    .setup-notice {
+      background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.25);
+      border-radius: 16px; padding: 20px 24px; margin-bottom: 32px;
+      display: none; align-items: center; gap: 16px;
+    }
+    .setup-notice.show { display: flex; }
+    .setup-notice-icon { font-size: 24px; flex-shrink: 0; }
+    .setup-notice a { color: var(--accent2); }
+  </style>
+</head>
+<body>
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<!-- Login -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">🔐</div>
+    <div class="login-title">Admin Panel</div>
+    <div class="login-sub">Đinh Thanh Hải · Portfolio</div>
+    <input class="login-input" type="password" id="pw-input" placeholder="Nhập mật khẩu..." />
+    <button class="login-btn" onclick="tryLogin()">Đăng nhập</button>
+    <div class="login-error" id="login-error">Mật khẩu không đúng</div>
+  </div>
+</div>
+
+<!-- Admin -->
+<div id="admin-screen">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">DTH Admin</div>
+      <div class="topbar-sub">Contact Manager</div>
+    </div>
+    <div class="topbar-right">
+      <button class="refresh-btn" onclick="loadContacts()">↻ Làm mới</button>
+      <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="setup-notice" id="setup-notice">
+      <div class="setup-notice-icon">⚙️</div>
+      <div>
+        <strong>Chưa cấu hình Script URL.</strong>
+        Mở <a href="setup.html" target="_blank">trang setup</a> để hoàn tất — chỉ mất 2 phút.
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Tổng liên hệ</div>
+        <div class="stat-value" id="stat-total">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Hôm nay</div>
+        <div class="stat-value" id="stat-today">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Tuần này</div>
+        <div class="stat-value" id="stat-week">—</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-header">
+        <div class="table-title">Tin nhắn liên hệ</div>
+        <div class="table-count" id="table-count"></div>
+      </div>
+      <div id="table-body">
+        <div class="loading"><div class="spinner"></div>Đang tải...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const PASS = 'thanhhai2003';
+  const SCRIPT_KEY = 'portfolio_script_url';
+
+  function tryLogin() {
+    const val = document.getElementById('pw-input').value;
+    if (val === PASS) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-screen').style.display = 'block';
+      loadContacts();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+  document.getElementById('pw-input').addEventListener('keydown', e => { if(e.key==='Enter') tryLogin(); });
+
+  function logout() {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('admin-screen').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+  }
+
+  async function loadContacts() {
+    const url = localStorage.getItem(SCRIPT_KEY);
+    if (!url) {
+      document.getElementById('setup-notice').classList.add('show');
+      document.getElementById('table-body').innerHTML = `<div class="empty-state"><div class="empty-icon">⚙️</div><div class="empty-text">Chưa cấu hình — xem <a href="setup.html" style="color:var(--accent2)">trang setup</a></div></div>`;
+      return;
+    }
+    document.getElementById('table-body').innerHTML = '<div class="loading"><div class="spinner"></div>Đang tải...</div>';
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error);
+      renderTable(data.rows);
+    } catch(e) {
+      document.getElementById('table-body').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-text">Lỗi: ${e.message}</div></div>`;
+    }
+  }
+
+  function renderTable(rows) {
+    if (!rows || rows.length <= 1) {
+      document.getElementById('table-body').innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Chưa có liên hệ nào</div></div>';
+      document.getElementById('stat-total').textContent = '0';
+      document.getElementById('stat-today').textContent = '0';
+      document.getElementById('stat-week').textContent = '0';
+      return;
+    }
+
+    const data = rows.slice(1); // bỏ header
+    const today = new Date().toLocaleDateString('vi-VN');
+    const weekAgo = Date.now() - 7*24*60*60*1000;
+    const todayCount = data.filter(r => r[0] && r[0].startsWith && r[0].toString().includes(today.split('/')[0])).length;
+    const weekCount = data.filter(r => { try { return new Date(r[0]) >= weekAgo; } catch(e){ return false; } }).length;
+
+    document.getElementById('stat-total').textContent = data.length;
+    document.getElementById('stat-today').textContent = todayCount;
+    document.getElementById('stat-week').textContent = weekCount;
+    document.getElementById('table-count').textContent = `${data.length} tin nhắn`;
+
+    const reversed = [...data].reverse();
+    const rows_html = reversed.map((r, i) => `
+      <tr>
+        <td class="td-time">${r[0] || '—'}</td>
+        <td class="td-name">${r[1] || '—'}${i === 0 ? '<span class="new-badge">Mới</span>' : ''}</td>
+        <td class="td-email"><a href="mailto:${r[2]}">${r[2] || '—'}</a></td>
+        <td class="td-msg">${(r[3] || '').replace(/</g,'&lt;')}</td>
+      </tr>`).join('');
+
+    document.getElementById('table-body').innerHTML = `
+      <table>
+        <thead><tr><th>Thời gian</th><th>Tên</th><th>Email</th><th>Tin nhắn</th></tr></thead>
+        <tbody>${rows_html}</tbody>
+      </table>`;
+  }
+</script>
+</body>
+</html>
