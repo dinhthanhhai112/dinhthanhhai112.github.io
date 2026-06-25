@@ -102,26 +102,22 @@
     <div class="step-num">2</div>
     <h3>Dán code vào Apps Script</h3>
     <p>Trong Sheet: bấm menu <strong>Extensions → Apps Script</strong> → xóa code cũ → dán code bên dưới → bấm 💾 Save.</p>
-    <div class="code-box" id="script-code">const SHEET_ID = '129mMmaf4LohvAVHcM3SAu5D0PYzUBGiEl6-Q0DMXf14';
-
-function doPost(e) {
-  const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+    <div class="code-box" id="script-code">function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(['Thời gian', 'Tên', 'Email', 'Tin nhắn']);
   }
   const d = JSON.parse(e.postData.contents);
   sheet.appendRow([new Date().toLocaleString('vi-VN'), d.name||'', d.email||'', d.message||'']);
-  const out = ContentService.createTextOutput(JSON.stringify({ok:true}));
-  out.setMimeType(ContentService.MimeType.JSON);
-  return out;
+  return ContentService.createTextOutput(JSON.stringify({ok:true}))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function doGet() {
-  const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   const rows = sheet.getDataRange().getValues();
-  const out = ContentService.createTextOutput(JSON.stringify({ok:true, rows:rows}));
-  out.setMimeType(ContentService.MimeType.JSON);
-  return out;
+  return ContentService.createTextOutput(JSON.stringify({ok:true, rows:rows}))
+    .setMimeType(ContentService.MimeType.JSON);
 }<button class="copy-btn" onclick="copyCode()">Copy</button></div>
     <div class="img-hint">💡 Sau khi Save: bấm <strong>Deploy → New deployment → Web app</strong> → Execute as: <strong>Me</strong> → Who has access: <strong>Anyone</strong> → bấm <strong>Deploy</strong> → copy URL.</div>
   </div>
