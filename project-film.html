@@ -3,39 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Short Film — Đinh Thanh Hải</title>
+  <title>Video Production — Đinh Thanh Hải</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #060608; --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.12);
       --glass-hover: rgba(255,255,255,0.1); --text: #f0f0f5; --muted: rgba(240,240,245,0.5);
-      --accent: #a78bfa; --accent2: #60a5fa; --font: -apple-system,"SF Pro Display","Helvetica Neue",sans-serif;
+      --accent: #a78bfa; --accent2: #60a5fa; --glow: rgba(167,139,250,0.3);
+      --font: -apple-system,"SF Pro Display","Helvetica Neue",sans-serif;
     }
     html { scroll-behavior: smooth; }
     body { font-family: var(--font); background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
     .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.25; animation: drift 18s ease-in-out infinite alternate; }
-    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle,#374151,transparent 70%); top: -100px; right: 0; }
-    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle,#1f2937,transparent 70%); bottom: 0; left: -50px; animation-delay: -8s; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.28; animation: drift 18s ease-in-out infinite alternate; }
+    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle,#1d4ed8,transparent 70%); top: -100px; right: -50px; }
+    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle,#7c3aed,transparent 70%); bottom: 0; left: -50px; animation-delay: -8s; }
     @keyframes drift { 0%{transform:translate(0,0);}100%{transform:translate(30px,-40px);} }
 
-    .back-btn { position: fixed; top: 24px; left: 24px; z-index: 100; display: flex; align-items: center; gap: 8px; background: rgba(10,10,15,0.6); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 100px; padding: 10px 20px; color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+    .back-btn {
+      position: fixed; top: 24px; left: 24px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(10,10,15,0.6); border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 100px; padding: 10px 20px;
+      color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500; transition: background 0.2s;
+    }
     .back-btn:hover { background: rgba(255,255,255,0.1); }
+
     .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-    .project-hero { min-height: 60vh; display: flex; align-items: flex-end; padding: 120px 0 60px; position: relative; }
-    .project-hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg,#0a0a0a,#1f2937,#374151); opacity: 0.7; }
+    /* Hero */
+    .project-hero { min-height: 55vh; display: flex; align-items: flex-end; padding: 120px 0 60px; position: relative; }
+    .project-hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg,#0c1445,#1d4ed8,#3b82f6); opacity: 0.4; }
     .project-hero-content { position: relative; z-index: 1; }
-    .project-cat { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .project-cat::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+    .project-cat { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent2); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .project-cat::before { content: ''; width: 24px; height: 1px; background: var(--accent2); display: inline-block; }
     .project-title { font-size: clamp(40px,7vw,72px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
     .project-subtitle { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.65; }
     .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
-    .tag { background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25); border-radius: 100px; padding: 6px 16px; font-size: 13px; color: var(--accent); font-weight: 500; }
+    .tag { background: rgba(96,165,250,0.12); border: 1px solid rgba(96,165,250,0.25); border-radius: 100px; padding: 6px 16px; font-size: 13px; color: var(--accent2); font-weight: 500; }
 
+    /* Stats */
     .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 60px 0; }
-    .stat-box { background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; padding: 28px; text-align: center; position: relative; }
-    .stat-box::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .stat-box {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px; padding: 28px; text-align: center; position: relative;
+    }
+    .stat-box::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(96,165,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
     .stat-box:hover::before { opacity: 1; }
     .stat-num { font-size: 36px; font-weight: 800; background: linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .stat-label { font-size: 13px; color: var(--muted); margin-top: 6px; }
@@ -44,43 +60,143 @@
     .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
     .desc-text { font-size: 17px; line-height: 1.8; color: rgba(240,240,245,0.75); margin-bottom: 16px; }
 
-    /* Film strip */
-    .film-strip { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 16px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; margin-top: 32px; }
-    .film-frame { flex-shrink: 0; width: 260px; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 48px; transition: transform 0.3s; cursor: pointer; }
-    .film-frame:hover { transform: scale(1.05); }
+    /* Carousel */
+    .carousel-wrap { position: relative; margin-top: 32px; }
 
-    /* Role cards */
-    .roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 24px; }
-    .role-card { background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; padding: 24px; text-align: center; position: relative; transition: transform 0.25s; }
-    .role-card::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-    .role-card:hover::before { opacity: 1; }
-    .role-card:hover { transform: translateY(-4px); }
-    .role-icon { font-size: 32px; margin-bottom: 12px; }
-    .role-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-    .role-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .carousel {
+      display: flex; gap: 16px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; padding-bottom: 4px;
+    }
+    .carousel::-webkit-scrollbar { display: none; }
 
-    .process-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
-    .process-item { display: flex; gap: 20px; align-items: flex-start; background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; padding: 24px; position: relative; }
-    .process-item::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-    .process-item:hover::before { opacity: 1; }
-    .process-num { width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; background: linear-gradient(135deg,var(--accent),var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
-    .process-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-    .process-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .carousel-card {
+      flex-shrink: 0; width: 300px;
+      scroll-snap-align: start;
+      position: relative; border-radius: 20px; overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .carousel-card::before {
+      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+      background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),
+        rgba(255,255,255,0.6), rgba(96,165,250,0.25) 40%, transparent 65%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 3;
+    }
+    .carousel-card:hover::before { opacity: 1; }
+    .carousel-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+    .carousel-card.active { border-color: rgba(96,165,250,0.35); box-shadow: 0 0 0 1px rgba(96,165,250,0.2), 0 12px 40px rgba(0,0,0,0.5); }
 
-    .back-to-home { margin: 80px 0 60px; text-decoration: none; background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; padding: 40px; display: flex; align-items: center; justify-content: space-between; transition: transform 0.25s,background 0.25s; position: relative; }
-    .back-to-home::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-    .back-to-home:hover::before { opacity: 1; }
-    .back-to-home:hover { transform: translateY(-4px); background: var(--glass-hover); }
+    /* Thumbnail */
+    .card-thumb {
+      width: 100%; aspect-ratio: 9/16;
+      background: linear-gradient(135deg, #0c1445, #1d4ed8);
+      position: relative; overflow: hidden;
+    }
+    .card-thumb-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(6,6,8,0.7) 0%, transparent 50%);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.3s; z-index: 2;
+    }
+    .carousel-card.playing .card-thumb-overlay { opacity: 0; pointer-events: none; }
+    .play-btn {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; transition: transform 0.2s, background 0.2s;
+      padding-left: 4px;
+    }
+    .carousel-card:hover .play-btn { transform: scale(1.1); background: rgba(96,165,250,0.25); }
+
+    /* Inline video */
+    .card-video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: contain; background: #000;
+      display: none; z-index: 1;
+    }
+    .carousel-card.playing .card-video { display: block; }
+
+    .card-info { padding: 16px 18px; position: relative; z-index: 2; }
+    .card-num { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--accent2); margin-bottom: 6px; text-transform: uppercase; }
+    .card-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+    .card-tag { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* Dot indicators */
+    .carousel-dots {
+      display: flex; justify-content: center; gap: 6px; margin-top: 20px;
+    }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); transition: all 0.3s;
+      cursor: pointer;
+    }
+    .dot.active { width: 20px; border-radius: 3px; background: var(--accent2); }
+
+    /* Nav arrows */
+    .carousel-nav { display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 16px; }
+    .carousel-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s, transform 0.2s;
+      font-size: 16px; color: var(--text); user-select: none;
+    }
+    .carousel-btn:hover { background: rgba(96,165,250,0.15); border-color: rgba(96,165,250,0.3); transform: scale(1.05); }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .lightbox.show { opacity: 1; pointer-events: all; }
+    .lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; }
+    .lightbox-inner video { max-width: 90vw; max-height: 85vh; border-radius: 16px; display: block; }
+    .lightbox-close {
+      position: absolute; top: -16px; right: -16px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; transition: background 0.2s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+    .lightbox-title { text-align: center; margin-top: 12px; font-size: 14px; color: var(--muted); }
+
+    /* Next project */
+    .next-project {
+      margin: 80px 0 60px; text-decoration: none;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px; padding: 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: transform 0.25s, background 0.25s; position: relative;
+    }
+    .next-project::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .next-project:hover::before { opacity: 1; }
+    .next-project:hover { transform: translateY(-4px); background: var(--glass-hover); }
     .next-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
     .next-title { font-size: 22px; font-weight: 700; }
     .next-arrow { font-size: 32px; color: var(--accent); }
 
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease,transform 0.6s ease; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 768px) {
       .stats-row { grid-template-columns: 1fr; }
-      .roles-grid { grid-template-columns: 1fr; }
+      .video-list { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -92,13 +208,13 @@
   <div class="project-hero-bg"></div>
   <div class="container">
     <div class="project-hero-content">
-      <div class="project-cat">Filmmaking</div>
-      <h1 class="project-title">Short Film<br>Production</h1>
-      <p class="project-subtitle">Sản xuất phim ngắn độc lập — từ kịch bản, đạo diễn đến hậu kỳ hoàn chỉnh.</p>
+      <div class="project-cat">Video Production</div>
+      <h1 class="project-title">Social Clips &<br>Video Production</h1>
+      <p class="project-subtitle">Các video ngắn sản xuất cho mạng xã hội — từ concept đến hậu kỳ hoàn chỉnh.</p>
       <div class="tags">
-        <span class="tag">Director</span>
-        <span class="tag">Cinematography</span>
-        <span class="tag">Post-production</span>
+        <span class="tag">Social Media</span>
+        <span class="tag">Short Video</span>
+        <span class="tag">Video Editing</span>
         <span class="tag">Colour Grading</span>
       </div>
     </div>
@@ -107,64 +223,134 @@
 
 <div class="container">
   <div class="stats-row reveal">
-    <div class="stat-box"><div class="stat-num">5+</div><div class="stat-label">Phim ngắn</div></div>
-    <div class="stat-box"><div class="stat-num">HD</div><div class="stat-label">Chất lượng xuất bản</div></div>
-    <div class="stat-box"><div class="stat-num">4K</div><div class="stat-label">Độ phân giải quay</div></div>
+    <div class="stat-box"><div class="stat-num">12</div><div class="stat-label">Video sản xuất</div></div>
+    <div class="stat-box"><div class="stat-num">4K</div><div class="stat-label">Độ phân giải</div></div>
+    <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">In-house production</div></div>
   </div>
 
   <div class="section reveal">
     <div class="section-title">Tổng quan</div>
-    <p class="desc-text">Phim ngắn là nơi tôi kể những câu chuyện có chiều sâu nhất. Từ kịch bản đến cảnh quay cuối cùng, tôi chú trọng vào cảm xúc, ánh sáng và nhịp điệu của từng khung hình.</p>
-    <p class="desc-text">Tôi đảm nhận đa vai trò trong mỗi dự án — vừa đạo diễn, vừa quay phim, vừa dựng phim — để đảm bảo tầm nhìn sáng tạo nhất quán từ đầu đến cuối.</p>
+    <p class="desc-text">Bộ sưu tập các video ngắn được sản xuất cho nền tảng mạng xã hội — tối ưu cho từng định dạng, từ vertical short-form đến horizontal content.</p>
+    <p class="desc-text">Mỗi video được dựng với sự chú trọng vào nhịp điệu hình ảnh, màu sắc và cảm xúc truyền tải.</p>
   </div>
 
   <div class="section reveal">
-    <div class="section-title">Cảnh phim</div>
-    <div class="film-strip">
-      <div class="film-frame" style="background:linear-gradient(135deg,#0a0a0a,#1f2937);">🎥</div>
-      <div class="film-frame" style="background:linear-gradient(135deg,#111827,#374151);">🌆</div>
-      <div class="film-frame" style="background:linear-gradient(135deg,#1f2937,#4b5563);">🎭</div>
-      <div class="film-frame" style="background:linear-gradient(135deg,#0f172a,#1e293b);">🌙</div>
-      <div class="film-frame" style="background:linear-gradient(135deg,#18181b,#27272a);">✨</div>
+    <div class="section-title">Video</div>
+    <div class="carousel-wrap">
+      <div class="carousel-nav">
+        <div class="carousel-btn" id="prev">←</div>
+        <div class="carousel-btn" id="next">→</div>
+      </div>
+      <div class="carousel" id="carousel">
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social1.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social1.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">01 / 10</div><div class="card-title">Social Clip 01</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social2.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social2.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">02 / 10</div><div class="card-title">Social Clip 02</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social3.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social3.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">03 / 10</div><div class="card-title">Social Clip 03</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social4.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social4.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">04 / 10</div><div class="card-title">Social Clip 04</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social5.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social5.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">05 / 10</div><div class="card-title">Social Clip 05</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social6.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social6.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">06 / 10</div><div class="card-title">Social Clip 06</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social7.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social7.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">07 / 10</div><div class="card-title">Social Clip 07</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social8.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social8.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">08 / 10</div><div class="card-title">Social Clip 08</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social9.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social9.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">09 / 10</div><div class="card-title">Social Clip 09</div><div class="card-tag">Social Media</div></div></div>
+        <div class="carousel-card"><div class="card-thumb" style="background-image:url('assets/thumbs/social10.jpg');background-size:cover;background-position:center;"><video class="card-video" src="assets/videos/social/social10.mp4" preload="none" playsinline></video><div class="card-thumb-overlay"><div class="play-btn">▶</div></div></div><div class="card-info"><div class="card-num">10 / 10</div><div class="card-title">Social Clip 10</div><div class="card-tag">Social Media</div></div></div>
+      </div>
+      <div class="carousel-dots" id="dots"></div>
     </div>
   </div>
 
-  <div class="section reveal">
-    <div class="section-title">Vai trò trong sản xuất</div>
-    <div class="roles-grid">
-      <div class="role-card"><div class="role-icon">🎬</div><div class="role-name">Director</div><div class="role-desc">Định hướng tầm nhìn sáng tạo và chỉ đạo toàn bộ đoàn phim</div></div>
-      <div class="role-card"><div class="role-icon">📷</div><div class="role-name">Cinematographer</div><div class="role-desc">Thiết kế ánh sáng, góc máy và ngôn ngữ hình ảnh</div></div>
-      <div class="role-card"><div class="role-icon">✂️</div><div class="role-name">Editor</div><div class="role-desc">Dựng phim, colour grading và âm thanh hậu kỳ</div></div>
-    </div>
-  </div>
 
-  <div class="section reveal">
-    <div class="section-title">Quy trình làm phim</div>
-    <div class="process-list">
-      <div class="process-item"><div class="process-num">1</div><div><div class="process-title">Development</div><div class="process-desc">Viết kịch bản, xây dựng nhân vật và thế giới câu chuyện.</div></div></div>
-      <div class="process-item"><div class="process-num">2</div><div><div class="process-title">Pre-production</div><div class="process-desc">Casting, location scouting, storyboard và lên kế hoạch quay chi tiết.</div></div></div>
-      <div class="process-item"><div class="process-num">3</div><div><div class="process-title">Production</div><div class="process-desc">Quay phim với ánh sáng và góc máy đã thiết kế, thu âm trực tiếp.</div></div></div>
-      <div class="process-item"><div class="process-num">4</div><div><div class="process-title">Post-production</div><div class="process-desc">Dựng phim, colour grading, mixing âm thanh và xuất bản.</div></div></div>
-    </div>
-  </div>
-
-  <a href="index.html" class="back-to-home reveal">
+  <a href="index.html" class="next-project reveal">
     <div><div class="next-label">Về trang chủ</div><div class="next-title">Xem tất cả dự án</div></div>
     <div class="next-arrow">↑</div>
   </a>
 </div>
 
 <script>
-  document.querySelectorAll('.stat-box,.process-item,.back-to-home,.role-card').forEach(el=>{
-    el.addEventListener('mousemove',e=>{
-      const r=el.getBoundingClientRect();
-      el.style.setProperty('--mx',`${((e.clientX-r.left)/r.width)*100}%`);
-      el.style.setProperty('--my',`${((e.clientY-r.top)/r.height)*100}%`);
+  // Carousel
+  const carousel = document.getElementById('carousel');
+  const cards = [...carousel.querySelectorAll('.carousel-card')];
+  const dotsWrap = document.getElementById('dots');
+
+  // Build dots
+  cards.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => scrollTo(i));
+    dotsWrap.appendChild(d);
+  });
+
+  function updateDots() {
+    const scrollLeft = carousel.scrollLeft;
+    const cardWidth = cards[0].offsetWidth + 16;
+    const idx = Math.round(scrollLeft / cardWidth);
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  function scrollTo(idx) {
+    const cardWidth = cards[0].offsetWidth + 16;
+    carousel.scrollTo({ left: idx * cardWidth, behavior: 'smooth' });
+  }
+
+  carousel.addEventListener('scroll', updateDots, { passive: true });
+
+  document.getElementById('prev').addEventListener('click', () => {
+    const idx = Math.round(carousel.scrollLeft / (cards[0].offsetWidth + 16));
+    scrollTo(Math.max(0, idx - 1));
+  });
+  document.getElementById('next').addEventListener('click', () => {
+    const idx = Math.round(carousel.scrollLeft / (cards[0].offsetWidth + 16));
+    scrollTo(Math.min(cards.length - 1, idx + 1));
+  });
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  const lbVideo = document.getElementById('lb-video');
+  const lbTitle = document.getElementById('lb-title');
+
+  cards.forEach(card => {
+    const video = card.querySelector('.card-video');
+    const overlay = card.querySelector('.card-thumb-overlay');
+
+    // Bấm overlay → play inline
+    overlay.addEventListener('click', e => {
+      e.stopPropagation();
+      // Dừng các card khác
+      cards.forEach(c => {
+        if (c !== card) {
+          c.classList.remove('playing');
+          const v = c.querySelector('.card-video');
+          v.pause(); v.currentTime = 0;
+        }
+      });
+      card.classList.add('playing');
+      video.controls = true;
+      video.play();
+    });
+
+    // Bấm vào video đang chạy → pause/resume (không cần làm gì thêm vì controls=true)
+    video.addEventListener('pause', () => {
+      if (video.ended || video.paused) card.classList.remove('playing');
+    });
+    video.addEventListener('play', () => card.classList.add('playing'));
+
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${((e.clientX-r.left)/r.width)*100}%`);
+      card.style.setProperty('--my', `${((e.clientY-r.top)/r.height)*100}%`);
     });
   });
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);obs.unobserve(e.target);}});
-  },{threshold:0.1});
+
+  // Spotlight + reveal
+  document.querySelectorAll('.stat-box, .next-project').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${((e.clientX-r.left)/r.width)*100}%`);
+      el.style.setProperty('--my', `${((e.clientY-r.top)/r.height)*100}%`);
+    });
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => { if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80); obs.unobserve(e.target);} });
+  }, {threshold:0.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>

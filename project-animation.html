@@ -68,6 +68,120 @@
     .anim-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
     .anim-tag { display: inline-block; margin-top: 12px; background: rgba(96,165,250,0.12); border: 1px solid rgba(96,165,250,0.25); border-radius: 100px; padding: 4px 12px; font-size: 12px; color: var(--accent2); }
 
+    /* Video list — Liquid Glass */
+    .video-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 32px; }
+
+    .video-item {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+    }
+
+    /* Spotlight border */
+    .video-item::before {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: inherit; padding: 1px;
+      background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%),
+        rgba(255,255,255,0.6),
+        rgba(167,139,250,0.25) 40%,
+        transparent 65%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity 0.35s;
+      pointer-events: none; z-index: 3;
+    }
+
+    /* Inner glow */
+    .video-item::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(350px circle at var(--mx,50%) var(--my,50%),
+        rgba(167,139,250,0.06), transparent 60%);
+      opacity: 0; transition: opacity 0.35s;
+      pointer-events: none; z-index: 1;
+    }
+
+    .video-item:hover::before, .video-item.open::before { opacity: 1; }
+    .video-item:hover::after, .video-item.open::after { opacity: 1; }
+    .video-item.open { background: rgba(255,255,255,0.07); box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(167,139,250,0.15); }
+
+    .video-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; cursor: pointer; user-select: none;
+      position: relative; z-index: 2;
+      gap: 16px;
+    }
+
+    .video-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; }
+
+    .video-num {
+      width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(96,165,250,0.15));
+      border: 1px solid rgba(167,139,250,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.02em;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .video-item.open .video-num {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent; color: #fff;
+      box-shadow: 0 4px 16px rgba(167,139,250,0.4);
+    }
+
+    .video-meta { flex: 1; min-width: 0; }
+    .video-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .video-tag-small {
+      font-size: 12px; color: var(--muted); margin-top: 3px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .video-tag-small::before {
+      content: ''; display: inline-block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); opacity: 0.6;
+    }
+
+    .video-toggle {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s, border-color 0.2s;
+      color: var(--muted); font-style: normal;
+    }
+    .video-item.open .video-toggle {
+      transform: rotate(180deg);
+      background: rgba(167,139,250,0.15);
+      border-color: rgba(167,139,250,0.3);
+      color: var(--accent);
+    }
+
+    /* Smooth expand */
+    .video-body {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1);
+      position: relative; z-index: 2;
+    }
+    .video-item.open .video-body { grid-template-rows: 1fr; }
+    .video-body-inner { overflow: hidden; }
+    .video-body-inner-pad { padding: 0 16px 16px; }
+    .video-body video {
+      width: 100%;
+      height: auto;
+      aspect-ratio: unset;
+      display: block;
+      border-radius: 14px;
+      background: #000;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+
     /* Floating animation on preview icons */
     .float { animation: floatAnim 3s ease-in-out infinite; }
     .float-delay { animation: floatAnim 3s ease-in-out infinite 1.5s; }
@@ -179,6 +293,20 @@
   </div>
 
   <div class="section reveal">
+    <div class="section-title">Video thực tế</div>
+    <div class="video-list">
+      <div class="video-item"><div class="video-header"><div class="video-header-left"><div class="video-num">01</div><div class="video-meta"><div class="video-title">Animation 1</div><div class="video-tag-small">Animation</div></div></div><div class="video-toggle">▾</div></div><div class="video-body"><div class="video-body-inner"><div class="video-body-inner-pad"><video controls preload="none"><source src="assets/videos/animation1.mp4" type="video/mp4"></video></div></div></div></div>
+      <div class="video-item"><div class="video-header"><div class="video-header-left"><div class="video-num">02</div><div class="video-meta"><div class="video-title">Animation 2</div><div class="video-tag-small">Animation</div></div></div><div class="video-toggle">▾</div></div><div class="video-body"><div class="video-body-inner"><div class="video-body-inner-pad"><video controls preload="none"><source src="assets/videos/anim2.mp4" type="video/mp4"></video></div></div></div></div>
+      <div class="video-item"><div class="video-header"><div class="video-header-left"><div class="video-num">03</div><div class="video-meta"><div class="video-title">Animation 3</div><div class="video-tag-small">Animation</div></div></div><div class="video-toggle">▾</div></div><div class="video-body"><div class="video-body-inner"><div class="video-body-inner-pad"><video controls preload="none"><source src="assets/videos/anim3.mp4" type="video/mp4"></video></div></div></div></div>
+      <div class="video-item"><div class="video-header"><div class="video-header-left"><div class="video-num">04</div><div class="video-meta"><div class="video-title">Animation 4</div><div class="video-tag-small">Animation</div></div></div><div class="video-toggle">▾</div></div><div class="video-body"><div class="video-body-inner"><div class="video-body-inner-pad"><video controls preload="none"><source src="assets/videos/anim4.mp4" type="video/mp4"></video></div></div></div></div>
+      <div class="video-item"><div class="video-header"><div class="video-header-left"><div class="video-num">05</div><div class="video-meta"><div class="video-title">Animation 5</div><div class="video-tag-small">Animation</div></div></div><div class="video-toggle">▾</div></div><div class="video-body"><div class="video-body-inner"><div class="video-body-inner-pad"><video controls preload="none"><source src="assets/videos/anim5.mp4" type="video/mp4"></video></div></div></div></div>
+      <div class="video-item"><div class="video-header"><div class="video-header-left"><div class="video-num">06</div><div class="video-meta"><div class="video-title">Animation 6</div><div class="video-tag-small">Animation</div></div></div><div class="video-toggle">▾</div></div><div class="video-body"><div class="video-body-inner"><div class="video-body-inner-pad"><video controls preload="none"><source src="assets/videos/anim6.mp4" type="video/mp4"></video></div></div></div></div>
+      <div class="video-item"><div class="video-header"><div class="video-header-left"><div class="video-num">07</div><div class="video-meta"><div class="video-title">Animation 7</div><div class="video-tag-small">Animation</div></div></div><div class="video-toggle">▾</div></div><div class="video-body"><div class="video-body-inner"><div class="video-body-inner-pad"><video controls preload="none"><source src="assets/videos/anim7.mp4" type="video/mp4"></video></div></div></div></div>
+      <div class="video-item"><div class="video-header"><div class="video-header-left"><div class="video-num">08</div><div class="video-meta"><div class="video-title">Social 1</div><div class="video-tag-small">Social Media</div></div></div><div class="video-toggle">▾</div></div><div class="video-body"><div class="video-body-inner"><div class="video-body-inner-pad"><video controls preload="none"><source src="assets/videos/social1.mp4" type="video/mp4"></video></div></div></div></div>
+    </div>
+  </div>
+
+  <div class="section reveal">
     <div class="section-title">Quy trình</div>
     <div class="process-list">
       <div class="process-item"><div class="process-num">1</div><div><div class="process-title">Storyboard & Animatic</div><div class="process-desc">Phác thảo từng frame và tạo animatic để preview timing trước khi production.</div></div></div>
@@ -189,12 +317,35 @@
   </div>
 
   <a href="project-film.html" class="next-project reveal">
-    <div><div class="next-label">Dự án tiếp theo</div><div class="next-title">Short Film Production</div></div>
+    <div><div class="next-label">Dự án tiếp theo</div><div class="next-title">Video Production</div></div>
     <div class="next-arrow">→</div>
   </a>
 </div>
 
 <script>
+  // Video accordion — smooth expand
+  document.querySelectorAll('.video-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.closest('.video-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.video-item.open').forEach(el => {
+        el.classList.remove('open');
+        const v = el.querySelector('video');
+        if (v) v.pause();
+      });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Spotlight on video items
+  document.querySelectorAll('.video-item').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${((e.clientX-r.left)/r.width)*100}%`);
+      el.style.setProperty('--my', `${((e.clientY-r.top)/r.height)*100}%`);
+    });
+  });
+
   document.querySelectorAll('.stat-box,.process-item,.next-project,.anim-card').forEach(el=>{
     el.addEventListener('mousemove',e=>{
       const r=el.getBoundingClientRect();

@@ -64,13 +64,11 @@
     .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
     .desc-text { font-size: 17px; line-height: 1.8; color: rgba(240,240,245,0.75); margin-bottom: 16px; }
 
-    /* Masonry-like gallery */
-    .gallery { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-    .gallery-item { border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); transition: transform 0.3s; cursor: pointer; position: relative; }
-    .gallery-item:hover { transform: scale(1.03); }
-    .gallery-item.tall { grid-row: span 2; }
-    .gallery-item-inner { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-    .gallery-item.tall .gallery-item-inner { height: 100%; min-height: 416px; }
+    /* Gallery — giữ tỉ lệ gốc */
+    .gallery { columns: 3; gap: 16px; }
+    .gallery-item { break-inside: avoid; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); transition: transform 0.3s; cursor: pointer; position: relative; margin-bottom: 16px; }
+    .gallery-item:hover { transform: scale(1.02); }
+    .gallery-item img { width: 100%; height: auto; display: block; }
     .gallery-item-label {
       position: absolute; bottom: 0; left: 0; right: 0; padding: 16px;
       background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
@@ -164,13 +162,18 @@
   <div class="section reveal">
     <div class="section-title">Gallery</div>
     <div class="gallery">
-      <div class="gallery-item tall"><div class="gallery-item-inner" style="background:linear-gradient(135deg,#2e1065,#7c3aed);">🎨</div><div class="gallery-item-label">Brand Identity</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background:linear-gradient(135deg,#4c1d95,#a78bfa);">✦</div><div class="gallery-item-label">Poster Design</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background:linear-gradient(135deg,#1e1b4b,#3730a3);">◈</div><div class="gallery-item-label">Typography</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background:linear-gradient(135deg,#6d28d9,#c4b5fd);">⬡</div><div class="gallery-item-label">Social Media</div></div>
-      <div class="gallery-item tall"><div class="gallery-item-inner" style="background:linear-gradient(135deg,#312e81,#818cf8);">◎</div><div class="gallery-item-label">Illustration</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background:linear-gradient(135deg,#0f172a,#4338ca);">▲</div><div class="gallery-item-label">Logo Design</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background:linear-gradient(135deg,#1d4ed8,#60a5fa);">◆</div><div class="gallery-item-label">Infographic</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_2bfbfefabd4b445a9d49be53be341881~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_2bfbfefabd4b445a9d49be53be341881~mv2.jpg"/><div class="gallery-item-label">Design 01</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_d079fd9d312445108fa04b1059aa9069~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_d079fd9d312445108fa04b1059aa9069~mv2.jpg"/><div class="gallery-item-label">Design 02</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_e1ad9da5755a42b88215add674dd3e84~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_e1ad9da5755a42b88215add674dd3e84~mv2.jpg"/><div class="gallery-item-label">Design 03</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_ed7411c1e03f410d99ddfd6c81ae5f98~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_ed7411c1e03f410d99ddfd6c81ae5f98~mv2.jpg"/><div class="gallery-item-label">Design 04</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_645cdff52b194e86a2aba274d350e0fb~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_645cdff52b194e86a2aba274d350e0fb~mv2.jpg"/><div class="gallery-item-label">Design 05</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_40f3875906394571849edb22cdbf5150~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_40f3875906394571849edb22cdbf5150~mv2.jpg"/><div class="gallery-item-label">Design 06</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_60ff209475564b84b71092b98fbba77d~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_60ff209475564b84b71092b98fbba77d~mv2.jpg"/><div class="gallery-item-label">Design 07</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_3e618f4172994c49949b322fe771c348~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_3e618f4172994c49949b322fe771c348~mv2.jpg"/><div class="gallery-item-label">Design 08</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_52b2346881ec4e0a9c603b32f441b52b~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_52b2346881ec4e0a9c603b32f441b52b~mv2.jpg"/><div class="gallery-item-label">Design 09</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_5856d22497c64fe8b3fe936ce6898d65~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_5856d22497c64fe8b3fe936ce6898d65~mv2.jpg"/><div class="gallery-item-label">Design 10</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_b70ea98a3b38489da3e3f75c69501a05~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_b70ea98a3b38489da3e3f75c69501a05~mv2.jpg"/><div class="gallery-item-label">Design 11</div></div>
+      <div class="gallery-item"><img src="https://static.wixstatic.com/media/3b620f_d41fba2a3c6c4a4aa103777963b68234~mv2.jpg/v1/fit/w_1200,h_1200,q_90,enc_auto/3b620f_d41fba2a3c6c4a4aa103777963b68234~mv2.jpg"/><div class="gallery-item-label">Design 12</div></div>
     </div>
   </div>
 
