@@ -213,8 +213,7 @@
 
 <script>
   const PASS = 'thanhhai2003';
-  const SCRIPT_KEY = 'portfolio_script_url';
-  const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbyE5UGClIbUZve_0OJk3-uM3RpekITcd9G5c2ACMHHP_htyTFW3kZZ1KK0eJxVCBFQo/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyE5UGClIbUZve_0OJk3-uM3RpekITcd9G5c2ACMHHP_htyTFW3kZZ1KK0eJxVCBFQo/exec';
 
   function tryLogin() {
     const val = document.getElementById('pw-input').value;
@@ -235,15 +234,9 @@
   }
 
   async function loadContacts() {
-    const url = localStorage.getItem(SCRIPT_KEY) || DEFAULT_URL;
-    if (!url) {
-      document.getElementById('setup-notice').classList.add('show');
-      document.getElementById('table-body').innerHTML = `<div class="empty-state"><div class="empty-icon">⚙️</div><div class="empty-text">Chưa cấu hình — xem <a href="setup.html" style="color:var(--accent2)">trang setup</a></div></div>`;
-      return;
-    }
     document.getElementById('table-body').innerHTML = '<div class="loading"><div class="spinner"></div>Đang tải...</div>';
     try {
-      const res = await fetch(url + '?t=' + Date.now());
+      const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
       const data = await res.json();
       if (!data.ok) throw new Error(data.error);
       renderTable(data.rows);
