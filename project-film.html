@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Short Film — Đinh Thanh Hải</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #060608; --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.12);
+      --glass-hover: rgba(255,255,255,0.1); --text: #f0f0f5; --muted: rgba(240,240,245,0.5);
+      --accent: #a78bfa; --accent2: #60a5fa; --font: -apple-system,"SF Pro Display","Helvetica Neue",sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.25; animation: drift 18s ease-in-out infinite alternate; }
+    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle,#374151,transparent 70%); top: -100px; right: 0; }
+    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle,#1f2937,transparent 70%); bottom: 0; left: -50px; animation-delay: -8s; }
+    @keyframes drift { 0%{transform:translate(0,0);}100%{transform:translate(30px,-40px);} }
+
+    .back-btn { position: fixed; top: 24px; left: 24px; z-index: 100; display: flex; align-items: center; gap: 8px; background: rgba(10,10,15,0.6); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 100px; padding: 10px 20px; color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+    .back-btn:hover { background: rgba(255,255,255,0.1); }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    .project-hero { min-height: 60vh; display: flex; align-items: flex-end; padding: 120px 0 60px; position: relative; }
+    .project-hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg,#0a0a0a,#1f2937,#374151); opacity: 0.7; }
+    .project-hero-content { position: relative; z-index: 1; }
+    .project-cat { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .project-cat::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+    .project-title { font-size: clamp(40px,7vw,72px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
+    .project-subtitle { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.65; }
+    .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .tag { background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25); border-radius: 100px; padding: 6px 16px; font-size: 13px; color: var(--accent); font-weight: 500; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 60px 0; }
+    .stat-box { background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; padding: 28px; text-align: center; position: relative; }
+    .stat-box::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .stat-box:hover::before { opacity: 1; }
+    .stat-num { font-size: 36px; font-weight: 800; background: linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    .section { padding: 60px 0; }
+    .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+    .desc-text { font-size: 17px; line-height: 1.8; color: rgba(240,240,245,0.75); margin-bottom: 16px; }
+
+    /* Film strip */
+    .film-strip { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 16px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; margin-top: 32px; }
+    .film-frame { flex-shrink: 0; width: 260px; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 48px; transition: transform 0.3s; cursor: pointer; }
+    .film-frame:hover { transform: scale(1.05); }
+
+    /* Role cards */
+    .roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 24px; }
+    .role-card { background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; padding: 24px; text-align: center; position: relative; transition: transform 0.25s; }
+    .role-card::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .role-card:hover::before { opacity: 1; }
+    .role-card:hover { transform: translateY(-4px); }
+    .role-icon { font-size: 32px; margin-bottom: 12px; }
+    .role-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .role-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .process-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+    .process-item { display: flex; gap: 20px; align-items: flex-start; background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; padding: 24px; position: relative; }
+    .process-item::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .process-item:hover::before { opacity: 1; }
+    .process-num { width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; background: linear-gradient(135deg,var(--accent),var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
+    .process-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .process-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    .back-to-home { margin: 80px 0 60px; text-decoration: none; background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; padding: 40px; display: flex; align-items: center; justify-content: space-between; transition: transform 0.25s,background 0.25s; position: relative; }
+    .back-to-home::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.5),rgba(167,139,250,0.2) 40%,transparent 70%); -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .back-to-home:hover::before { opacity: 1; }
+    .back-to-home:hover { transform: translateY(-4px); background: var(--glass-hover); }
+    .next-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .next-title { font-size: 22px; font-weight: 700; }
+    .next-arrow { font-size: 32px; color: var(--accent); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease,transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .roles-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+<a href="index.html" class="back-btn">← Quay lại</a>
+
+<div class="project-hero">
+  <div class="project-hero-bg"></div>
+  <div class="container">
+    <div class="project-hero-content">
+      <div class="project-cat">Filmmaking</div>
+      <h1 class="project-title">Short Film<br>Production</h1>
+      <p class="project-subtitle">Sản xuất phim ngắn độc lập — từ kịch bản, đạo diễn đến hậu kỳ hoàn chỉnh.</p>
+      <div class="tags">
+        <span class="tag">Director</span>
+        <span class="tag">Cinematography</span>
+        <span class="tag">Post-production</span>
+        <span class="tag">Colour Grading</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="stats-row reveal">
+    <div class="stat-box"><div class="stat-num">5+</div><div class="stat-label">Phim ngắn</div></div>
+    <div class="stat-box"><div class="stat-num">HD</div><div class="stat-label">Chất lượng xuất bản</div></div>
+    <div class="stat-box"><div class="stat-num">4K</div><div class="stat-label">Độ phân giải quay</div></div>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-title">Tổng quan</div>
+    <p class="desc-text">Phim ngắn là nơi tôi kể những câu chuyện có chiều sâu nhất. Từ kịch bản đến cảnh quay cuối cùng, tôi chú trọng vào cảm xúc, ánh sáng và nhịp điệu của từng khung hình.</p>
+    <p class="desc-text">Tôi đảm nhận đa vai trò trong mỗi dự án — vừa đạo diễn, vừa quay phim, vừa dựng phim — để đảm bảo tầm nhìn sáng tạo nhất quán từ đầu đến cuối.</p>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-title">Cảnh phim</div>
+    <div class="film-strip">
+      <div class="film-frame" style="background:linear-gradient(135deg,#0a0a0a,#1f2937);">🎥</div>
+      <div class="film-frame" style="background:linear-gradient(135deg,#111827,#374151);">🌆</div>
+      <div class="film-frame" style="background:linear-gradient(135deg,#1f2937,#4b5563);">🎭</div>
+      <div class="film-frame" style="background:linear-gradient(135deg,#0f172a,#1e293b);">🌙</div>
+      <div class="film-frame" style="background:linear-gradient(135deg,#18181b,#27272a);">✨</div>
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-title">Vai trò trong sản xuất</div>
+    <div class="roles-grid">
+      <div class="role-card"><div class="role-icon">🎬</div><div class="role-name">Director</div><div class="role-desc">Định hướng tầm nhìn sáng tạo và chỉ đạo toàn bộ đoàn phim</div></div>
+      <div class="role-card"><div class="role-icon">📷</div><div class="role-name">Cinematographer</div><div class="role-desc">Thiết kế ánh sáng, góc máy và ngôn ngữ hình ảnh</div></div>
+      <div class="role-card"><div class="role-icon">✂️</div><div class="role-name">Editor</div><div class="role-desc">Dựng phim, colour grading và âm thanh hậu kỳ</div></div>
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-title">Quy trình làm phim</div>
+    <div class="process-list">
+      <div class="process-item"><div class="process-num">1</div><div><div class="process-title">Development</div><div class="process-desc">Viết kịch bản, xây dựng nhân vật và thế giới câu chuyện.</div></div></div>
+      <div class="process-item"><div class="process-num">2</div><div><div class="process-title">Pre-production</div><div class="process-desc">Casting, location scouting, storyboard và lên kế hoạch quay chi tiết.</div></div></div>
+      <div class="process-item"><div class="process-num">3</div><div><div class="process-title">Production</div><div class="process-desc">Quay phim với ánh sáng và góc máy đã thiết kế, thu âm trực tiếp.</div></div></div>
+      <div class="process-item"><div class="process-num">4</div><div><div class="process-title">Post-production</div><div class="process-desc">Dựng phim, colour grading, mixing âm thanh và xuất bản.</div></div></div>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-to-home reveal">
+    <div><div class="next-label">Về trang chủ</div><div class="next-title">Xem tất cả dự án</div></div>
+    <div class="next-arrow">↑</div>
+  </a>
+</div>
+
+<script>
+  document.querySelectorAll('.stat-box,.process-item,.back-to-home,.role-card').forEach(el=>{
+    el.addEventListener('mousemove',e=>{
+      const r=el.getBoundingClientRect();
+      el.style.setProperty('--mx',`${((e.clientX-r.left)/r.width)*100}%`);
+      el.style.setProperty('--my',`${((e.clientY-r.top)/r.height)*100}%`);
+    });
+  });
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);obs.unobserve(e.target);}});
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

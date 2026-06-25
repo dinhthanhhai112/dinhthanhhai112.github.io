@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTVKIDS — Đinh Thanh Hải</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #060608;
+      --glass: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+      --glass-hover: rgba(255,255,255,0.1);
+      --text: #f0f0f5;
+      --muted: rgba(240,240,245,0.5);
+      --accent: #a78bfa;
+      --accent2: #60a5fa;
+      --glow: rgba(167,139,250,0.3);
+      --font: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; animation: drift 18s ease-in-out infinite alternate; }
+    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, #7c3aed, transparent 70%); top: -100px; left: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, #1d4ed8, transparent 70%); bottom: 0; right: -100px; animation-delay: -8s; }
+    @keyframes drift { 0% { transform: translate(0,0); } 100% { transform: translate(30px, -40px); } }
+
+    /* Back button */
+    .back-btn {
+      position: fixed; top: 24px; left: 24px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(10,10,15,0.6);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 100px; padding: 10px 20px;
+      color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.1); }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* Hero */
+    .project-hero {
+      min-height: 60vh; display: flex; align-items: flex-end;
+      padding: 120px 0 60px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      position: relative;
+    }
+    .project-hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(135deg, #1e1b4b, #312e81, #1d4ed8);
+      opacity: 0.4;
+    }
+    .project-hero-content { position: relative; z-index: 1; }
+    .project-cat {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .project-cat::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+    .project-title { font-size: clamp(40px, 7vw, 72px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
+    .project-subtitle { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.65; }
+
+    /* Tags */
+    .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .tag {
+      background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25);
+      border-radius: 100px; padding: 6px 16px; font-size: 13px; color: var(--accent); font-weight: 500;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin: 60px 0;
+    }
+    .stat-box {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px; padding: 28px; text-align: center;
+      position: relative;
+    }
+    .stat-box::before {
+      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+      background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.5), rgba(167,139,250,0.2) 40%, transparent 70%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    }
+    .stat-box:hover::before { opacity: 1; }
+    .stat-num { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    /* Section */
+    .section { padding: 60px 0; }
+    .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+
+    /* Description */
+    .desc-text { font-size: 17px; line-height: 1.8; color: rgba(240,240,245,0.75); margin-bottom: 16px; }
+
+    /* Gallery grid */
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .gallery-item {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--glass-border);
+      aspect-ratio: 16/9;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .gallery-item:hover { transform: scale(1.03); }
+    .gallery-item-inner {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      font-size: 40px; transition: transform 0.4s;
+    }
+    .gallery-item:hover .gallery-item-inner { transform: scale(1.1); }
+
+    /* Process */
+    .process-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+    .process-item {
+      display: flex; gap: 20px; align-items: flex-start;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px; padding: 24px;
+      position: relative;
+    }
+    .process-item::before {
+      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+      background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.5), rgba(167,139,250,0.2) 40%, transparent 70%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    }
+    .process-item:hover::before { opacity: 1; }
+    .process-num {
+      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700;
+    }
+    .process-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .process-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* Next project */
+    .next-project {
+      margin: 80px 0 60px;
+      display: block; text-decoration: none;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px; padding: 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: transform 0.25s, background 0.25s;
+      position: relative;
+    }
+    .next-project::before {
+      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+      background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.5), rgba(167,139,250,0.2) 40%, transparent 70%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    }
+    .next-project:hover::before { opacity: 1; }
+    .next-project:hover { transform: translateY(-4px); background: var(--glass-hover); }
+    .next-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .next-title { font-size: 22px; font-weight: 700; }
+    .next-arrow { font-size: 32px; color: var(--accent); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<a href="index.html" class="back-btn">← Quay lại</a>
+
+<!-- Hero -->
+<div class="project-hero">
+  <div class="project-hero-bg"></div>
+  <div class="container">
+    <div class="project-hero-content">
+      <div class="project-cat">Video Production</div>
+      <h1 class="project-title">HTVKIDS</h1>
+      <p class="project-subtitle">Sản xuất & biên tập nội dung video cho kênh YouTube thiếu nhi — từ concept đến hậu kỳ hoàn chỉnh.</p>
+      <div class="tags">
+        <span class="tag">Video Editing</span>
+        <span class="tag">Motion Graphics</span>
+        <span class="tag">YouTube</span>
+        <span class="tag">Content Strategy</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Stats -->
+  <div class="stats-row reveal">
+    <div class="stat-box">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Video đã sản xuất</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Năm kinh nghiệm</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Sản xuất trong nhà</div>
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <div class="section reveal">
+    <div class="section-title">Tổng quan dự án</div>
+    <p class="desc-text">
+      HTVKIDS là kênh YouTube nội dung thiếu nhi, nơi tôi đảm nhận toàn bộ quy trình sản xuất video —
+      từ lên ý tưởng, quay hình, dựng phim, thêm hiệu ứng âm thanh đến tối ưu hoá nội dung cho nền tảng.
+    </p>
+    <p class="desc-text">
+      Mỗi video được thiết kế để thu hút và giữ chân khán giả nhỏ tuổi, kết hợp hình ảnh sinh động,
+      âm nhạc phù hợp và câu chuyện hấp dẫn.
+    </p>
+  </div>
+
+  <!-- Gallery -->
+  <div class="section reveal">
+    <div class="section-title">Một số video tiêu biểu</div>
+    <div class="gallery">
+      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#1e1b4b,#3730a3);">🎬</div></div>
+      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#1d4ed8,#0ea5e9);">🎥</div></div>
+      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#6d28d9,#a78bfa);">✨</div></div>
+      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#0f172a,#1e3a5f);">🎵</div></div>
+      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#312e81,#4338ca);">🌟</div></div>
+      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#0c4a6e,#0369a1);">🎭</div></div>
+    </div>
+  </div>
+
+  <!-- Process -->
+  <div class="section reveal">
+    <div class="section-title">Quy trình sản xuất</div>
+    <div class="process-list">
+      <div class="process-item">
+        <div class="process-num">1</div>
+        <div>
+          <div class="process-title">Lên concept & kịch bản</div>
+          <div class="process-desc">Nghiên cứu xu hướng, xác định chủ đề phù hợp độ tuổi, viết kịch bản và storyboard chi tiết.</div>
+        </div>
+      </div>
+      <div class="process-item">
+        <div class="process-num">2</div>
+        <div>
+          <div class="process-title">Quay & thu âm</div>
+          <div class="process-desc">Quay hình với thiết bị chuyên nghiệp, thu âm voiceover và sound effect phù hợp.</div>
+        </div>
+      </div>
+      <div class="process-item">
+        <div class="process-num">3</div>
+        <div>
+          <div class="process-title">Dựng phim & Motion Graphics</div>
+          <div class="process-desc">Biên tập, colour grading, thêm motion graphics, lower thirds và hiệu ứng chuyển cảnh.</div>
+        </div>
+      </div>
+      <div class="process-item">
+        <div class="process-num">4</div>
+        <div>
+          <div class="process-title">Xuất bản & tối ưu hoá</div>
+          <div class="process-desc">Tối ưu thumbnail, tiêu đề, mô tả và tags để tăng lượt xem tự nhiên trên YouTube.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next project -->
+  <a href="project-design.html" class="next-project reveal">
+    <div>
+      <div class="next-label">Dự án tiếp theo</div>
+      <div class="next-title">Visual Design Collection</div>
+    </div>
+    <div class="next-arrow">→</div>
+  </a>
+
+</div>
+
+<script>
+  // Spotlight effect
+  document.querySelectorAll('.stat-box, .process-item, .next-project').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const rect = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+      el.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+    });
+  });
+
+  // Reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 100); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
