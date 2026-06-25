@@ -214,6 +214,7 @@
 <script>
   const PASS = 'thanhhai2003';
   const SCRIPT_KEY = 'portfolio_script_url';
+  const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbwJOkMmAz2pvWLsXepZ2orU4dQGYCQsg_SbxUVZmSQ8m8vqi7AHeKqh6vvx2QI3XQY7/exec';
 
   function tryLogin() {
     const val = document.getElementById('pw-input').value;
@@ -234,7 +235,7 @@
   }
 
   async function loadContacts() {
-    const url = localStorage.getItem(SCRIPT_KEY);
+    const url = localStorage.getItem(SCRIPT_KEY) || DEFAULT_URL;
     if (!url) {
       document.getElementById('setup-notice').classList.add('show');
       document.getElementById('table-body').innerHTML = `<div class="empty-state"><div class="empty-icon">⚙️</div><div class="empty-text">Chưa cấu hình — xem <a href="setup.html" style="color:var(--accent2)">trang setup</a></div></div>`;

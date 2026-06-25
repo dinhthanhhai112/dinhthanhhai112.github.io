@@ -1029,7 +1029,7 @@
       setTimeout(() => btn.textContent = 'Gửi tin nhắn →', 2500);
       return;
     }
-    const scriptUrl = localStorage.getItem('portfolio_script_url');
+    const scriptUrl = localStorage.getItem('portfolio_script_url') || 'https://script.google.com/macros/s/AKfycbwJOkMmAz2pvWLsXepZ2orU4dQGYCQsg_SbxUVZmSQ8m8vqi7AHeKqh6vvx2QI3XQY7/exec';
     btn.textContent = 'Đang gửi...';
     btn.disabled = true;
     try {
