@@ -526,17 +526,24 @@
       line-height: 1.55;
     }
 
-    /* Featured project */
-    .project-card.featured {
-      grid-column: 1 / 3;
+    /* Clean Uniform Grid */
+    #projects .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
     }
 
-    .project-card.featured .project-thumb {
-      aspect-ratio: 21/9;
+    @media (max-width: 900px) {
+      #projects .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
-    .project-card.featured .project-thumb-bg {
-      font-size: 72px;
+    @media (max-width: 600px) {
+      #projects .projects-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* ── Contact ── */
@@ -852,9 +859,9 @@
     <div class="projects-grid">
 
       <!-- Podcast Production -->
-      <div class="project-card reveal" onclick="location.href='project-podcast.html'" style="cursor:pointer;">
+      <div class="project-card reveal" onclick="location.href='project-podcast.html'">
         <div class="project-thumb">
-          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #311042, #6b21a8, #c084fc);">🎙️</div>
+          <img src="https://img.youtube.com/vi/w_uPmc1fViI/hqdefault.jpg" alt="Podcast Series" style="width:100%;height:100%;object-fit:cover;" />
           <div class="project-overlay">
             <span class="project-overlay-label">Xem Podcast →</span>
           </div>
@@ -862,30 +869,44 @@
         <div class="project-info">
           <div class="project-cat">Podcast & Talkshow</div>
           <div class="project-name">Podcast & Talkshow Production</div>
-          <div class="project-desc">Hậu kỳ đa kênh cho các series Podcast & Talkshow — dựng Multi-cam, xử lý âm thanh AI, chỉnh màu và trích xuất short clips.</div>
+          <div class="project-desc">Hậu kỳ đa kênh cho các series Podcast quốc tế — dựng Multi-cam, lọc âm AI và trích xuất Shorts clips.</div>
         </div>
       </div>
 
-
-      <!-- Featured -->
-      <div class="project-card featured reveal" onclick="location.href='project-htvkids.html'" style="cursor:pointer;">
+      <!-- HTVKIDS -->
+      <div class="project-card reveal" onclick="location.href='project-htvkids.html'">
         <div class="project-thumb">
-          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #1e1b4b, #312e81, #1d4ed8);">🎬</div>
+          <img src="https://img.youtube.com/vi/W4Jje70ovsw/hqdefault.jpg" alt="HTVKIDS" style="width:100%;height:100%;object-fit:cover;" />
           <div class="project-overlay">
-            <span class="project-overlay-label">Xem Project →</span>
+            <span class="project-overlay-label">Xem HTVKIDS →</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-cat">TV & Web Series</div>
+          <div class="project-name">HTVKIDS — Bếp Bốn Mùa</div>
+          <div class="project-desc">Biên tập kịch bản món ăn và dựng hậu kỳ 15+ tập chương trình thiếu nhi trên truyền hình & YouTube.</div>
+        </div>
+      </div>
+
+      <!-- Commercial & Film -->
+      <div class="project-card reveal" onclick="location.href='project-film.html'">
+        <div class="project-thumb">
+          <img src="https://img.youtube.com/vi/jtu_xYX6D40/hqdefault.jpg" alt="Video Production" style="width:100%;height:100%;object-fit:cover;" />
+          <div class="project-overlay">
+            <span class="project-overlay-label">Xem Video →</span>
           </div>
         </div>
         <div class="project-info">
           <div class="project-cat">Video Production</div>
-          <div class="project-name">HTVKIDS — YouTube Channel</div>
-          <div class="project-desc">Sản xuất và biên tập nội dung video cho kênh YouTube thiếu nhi, bao gồm dựng phim, motion graphics và quản lý nội dung.</div>
+          <div class="project-name">Corporate & Social Clips</div>
+          <div class="project-desc">Sản xuất và biên tập video thương mại, phim ngắn truyền thông doanh nghiệp đa nền tảng.</div>
         </div>
       </div>
 
       <!-- Graphic Design -->
-      <div class="project-card reveal" onclick="location.href='project-design.html'" style="cursor:pointer;">
+      <div class="project-card reveal" onclick="location.href='project-design.html'">
         <div class="project-thumb">
-          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #4c1d95, #7c3aed, #a78bfa); padding:0;"><img src="assets/images/img4.jpg" style="width:100%;height:100%;object-fit:cover;"/></div>
+          <img src="assets/images/img4.jpg" alt="Graphic Design" style="width:100%;height:100%;object-fit:cover;" />
           <div class="project-overlay">
             <span class="project-overlay-label">Xem Design →</span>
           </div>
@@ -893,37 +914,22 @@
         <div class="project-info">
           <div class="project-cat">Graphic Design</div>
           <div class="project-name">Visual Design Collection</div>
-          <div class="project-desc">Bộ sưu tập 12+ thiết kế đồ hoạ đa dạng — từ poster, branding đến social media content.</div>
+          <div class="project-desc">Bộ sưu tập thiết kế đồ hoạ đa dạng — từ Poster, Branding, Thumbnail đến Social Content.</div>
         </div>
       </div>
 
       <!-- Animation -->
-      <div class="project-card reveal" onclick="location.href='project-animation.html'" style="cursor:pointer;">
+      <div class="project-card reveal" onclick="location.href='project-animation.html'">
         <div class="project-thumb">
-          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #0c4a6e, #0369a1, #38bdf8);">✨</div>
+          <img src="assets/images/img2.jpg" alt="Motion Graphics" style="width:100%;height:100%;object-fit:cover;" />
           <div class="project-overlay">
-            <span class="project-overlay-label">Xem Animation →</span>
+            <span class="project-overlay-label">Xem Motion →</span>
           </div>
         </div>
         <div class="project-info">
-          <div class="project-cat">Animation</div>
-          <div class="project-name">Motion Graphics Projects</div>
-          <div class="project-desc">Các dự án animation 2D và motion graphics với hiệu ứng chuyển động mượt mà và sáng tạo.</div>
-        </div>
-      </div>
-
-      <!-- Video Production -->
-      <div class="project-card reveal" onclick="location.href='project-film.html'" style="cursor:pointer;">
-        <div class="project-thumb">
-          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #0c1445, #1d4ed8, #3b82f6);">📱</div>
-          <div class="project-overlay">
-            <span class="project-overlay-label">Xem Phim →</span>
-          </div>
-        </div>
-        <div class="project-info">
-          <div class="project-cat">Video Production</div>
-          <div class="project-name">Social Clips & Video Production</div>
-          <div class="project-desc">Các video ngắn sản xuất cho mạng xã hội — từ concept đến hậu kỳ hoàn chỉnh.</div>
+          <div class="project-cat">Motion Graphics</div>
+          <div class="project-name">Animation & Motion Showcase</div>
+          <div class="project-desc">Các dự án Motion Graphics 2D/3D với hiệu ứng đồ họa động mượt mà và kỹ xảo điện ảnh.</div>
         </div>
       </div>
 
