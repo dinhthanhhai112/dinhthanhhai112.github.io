@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTVKIDS — Đinh Thanh Hải</title>
+  <title>HTVKIDS — Bếp Bốn Mùa | Đinh Thanh Hải</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -12,7 +12,7 @@
       --glass-border: rgba(255,255,255,0.12);
       --glass-hover: rgba(255,255,255,0.1);
       --text: #f0f0f5;
-      --muted: rgba(240,240,245,0.5);
+      --muted: rgba(240,240,245,0.55);
       --accent: #a78bfa;
       --accent2: #60a5fa;
       --glow: rgba(167,139,250,0.3);
@@ -36,35 +36,35 @@
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-radius: 100px; padding: 10px 20px;
       color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.2s;
     }
-    .back-btn:hover { background: rgba(255,255,255,0.1); }
+    .back-btn:hover { background: rgba(255,255,255,0.12); transform: translateX(-2px); }
 
-    .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
     /* Hero */
     .project-hero {
-      min-height: 60vh; display: flex; align-items: flex-end;
-      padding: 120px 0 60px;
+      min-height: 50vh; display: flex; align-items: flex-end;
+      padding: 120px 0 50px;
       background: linear-gradient(to bottom, transparent, var(--bg));
       position: relative;
     }
     .project-hero-bg {
       position: absolute; inset: 0; z-index: 0;
       background: linear-gradient(135deg, #1e1b4b, #312e81, #1d4ed8);
-      opacity: 0.4;
+      opacity: 0.35;
     }
     .project-hero-content { position: relative; z-index: 1; }
     .project-cat {
-      font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
     }
-    .project-cat::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
-    .project-title { font-size: clamp(40px, 7vw, 72px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
-    .project-subtitle { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.65; }
+    .project-cat::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+    .project-title { font-size: clamp(40px, 7vw, 68px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 16px; }
+    .project-subtitle { font-size: 18px; color: var(--muted); max-width: 620px; line-height: 1.65; }
 
     /* Tags */
-    .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
     .tag {
       background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25);
       border-radius: 100px; padding: 6px 16px; font-size: 13px; color: var(--accent); font-weight: 500;
@@ -73,65 +73,108 @@
     /* Stats row */
     .stats-row {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-      margin: 60px 0;
+      margin: 40px 0 60px;
     }
     .stat-box {
       background: var(--glass); border: 1px solid var(--glass-border);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-radius: 16px; padding: 28px; text-align: center;
-      position: relative;
+      border-radius: 16px; padding: 24px; text-align: center;
     }
-    .stat-box::before {
-      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-      background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.5), rgba(167,139,250,0.2) 40%, transparent 70%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
-      opacity: 0; transition: opacity 0.3s; pointer-events: none;
-    }
-    .stat-box:hover::before { opacity: 1; }
     .stat-num { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .stat-label { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
     /* Section */
-    .section { padding: 60px 0; }
-    .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+    .section { padding: 40px 0; }
+    .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: space-between; }
+    .section-subtitle { font-size: 15px; color: var(--muted); font-weight: 400; }
 
-    /* Description */
-    .desc-text { font-size: 17px; line-height: 1.8; color: rgba(240,240,245,0.75); margin-bottom: 16px; }
-
-    /* Gallery grid */
-    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
-    .gallery-item {
-      border-radius: 16px; overflow: hidden;
-      border: 1px solid var(--glass-border);
-      aspect-ratio: 16/9;
-      transition: transform 0.3s;
-      cursor: pointer;
+    /* Video Grid */
+    .video-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
     }
-    .gallery-item:hover { transform: scale(1.03); }
-    .gallery-item-inner {
-      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-      font-size: 40px; transition: transform 0.4s;
-    }
-    .gallery-item:hover .gallery-item-inner { transform: scale(1.1); }
+    @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .video-grid { grid-template-columns: 1fr; } }
 
-    /* Process */
+    .video-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 18px; overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer; position: relative;
+    }
+    .video-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(167,139,250,0.4);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 20px var(--glow);
+    }
+    .thumb-wrapper {
+      position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000;
+    }
+    .thumb-img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .video-card:hover .thumb-img {
+      transform: scale(1.06);
+      filter: brightness(0.85);
+    }
+    .play-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 54px; height: 54px; border-radius: 50%;
+      background: rgba(167,139,250,0.85); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 20px; padding-left: 3px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .video-card:hover .play-badge {
+      transform: translate(-50%, -50%) scale(1.15);
+      background: #a78bfa;
+    }
+    .ep-tag {
+      position: absolute; bottom: 10px; right: 10px;
+      background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; color: #fff;
+    }
+    .card-info { padding: 18px; }
+    .card-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
+    .card-meta { font-size: 13px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; }
+    .card-channel { color: var(--accent2); font-weight: 500; }
+
+    /* Modal Video Popup */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(4, 4, 8, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-content {
+      width: 90%; max-width: 960px; aspect-ratio: 16/9;
+      background: #000; border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--glass-border); box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      position: relative; transform: scale(0.92); transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-content { transform: scale(1); }
+    .modal-content iframe { width: 100%; height: 100%; border: none; }
+    .close-modal {
+      position: absolute; top: 16px; right: 16px; z-index: 10;
+      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; width: 40px; height: 40px; border-radius: 50%;
+      font-size: 20px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .close-modal:hover { background: rgba(255,255,255,0.3); }
+
+    /* Process list */
     .process-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
     .process-item {
       display: flex; gap: 20px; align-items: flex-start;
       background: var(--glass); border: 1px solid var(--glass-border);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-radius: 16px; padding: 24px;
-      position: relative;
     }
-    .process-item::before {
-      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-      background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.5), rgba(167,139,250,0.2) 40%, transparent 70%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
-      opacity: 0; transition: opacity 0.3s; pointer-events: none;
-    }
-    .process-item:hover::before { opacity: 1; }
     .process-num {
       width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
@@ -144,38 +187,21 @@
     /* Next project */
     .next-project {
       margin: 80px 0 60px;
-      display: block; text-decoration: none;
+      text-decoration: none;
       background: var(--glass); border: 1px solid var(--glass-border);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-radius: 20px; padding: 40px;
+      border-radius: 20px; padding: 36px 40px;
       display: flex; align-items: center; justify-content: space-between;
       transition: transform 0.25s, background 0.25s;
-      position: relative;
     }
-    .next-project::before {
-      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-      background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.5), rgba(167,139,250,0.2) 40%, transparent 70%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
-      opacity: 0; transition: opacity 0.3s; pointer-events: none;
-    }
-    .next-project:hover::before { opacity: 1; }
     .next-project:hover { transform: translateY(-4px); background: var(--glass-hover); }
-    .next-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-    .next-title { font-size: 22px; font-weight: 700; }
+    .next-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .next-title { font-size: 22px; font-weight: 700; color: var(--text); }
     .next-arrow { font-size: 32px; color: var(--accent); }
 
     /* Reveal */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 768px) {
-      .stats-row { grid-template-columns: 1fr; }
-      .gallery { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 480px) {
-      .gallery { grid-template-columns: 1fr; }
-    }
   </style>
 </head>
 <body>
@@ -185,21 +211,22 @@
   <div class="orb orb-2"></div>
 </div>
 
-<a href="index.html" class="back-btn">← Quay lại</a>
+<a href="index.html" class="back-btn">← Quay lại Trang Chủ</a>
 
 <!-- Hero -->
 <div class="project-hero">
   <div class="project-hero-bg"></div>
   <div class="container">
     <div class="project-hero-content">
-      <div class="project-cat">Video Production</div>
-      <h1 class="project-title">HTVKIDS</h1>
-      <p class="project-subtitle">Sản xuất & biên tập nội dung video cho kênh YouTube thiếu nhi — từ concept đến hậu kỳ hoàn chỉnh.</p>
+      <div class="project-cat">Video Production & Editing</div>
+      <h1 class="project-title">HTVKIDS — Bếp Bốn Mùa</h1>
+      <p class="project-subtitle">Sản xuất & biên tập chuỗi chương trình "Bếp Bốn Mùa" phát sóng trên HTVKIDS / HTV3 — từ dựng phim, âm thanh đến hiệu ứng chuyển động hoàn chỉnh.</p>
       <div class="tags">
+        <span class="tag">Bếp Bốn Mùa</span>
         <span class="tag">Video Editing</span>
-        <span class="tag">Motion Graphics</span>
-        <span class="tag">YouTube</span>
-        <span class="tag">Content Strategy</span>
+        <span class="tag">HTV3 / HTVKIDS</span>
+        <span class="tag">Color Grading</span>
+        <span class="tag">Sound Design</span>
       </div>
     </div>
   </div>
@@ -210,106 +237,293 @@
   <!-- Stats -->
   <div class="stats-row reveal">
     <div class="stat-box">
-      <div class="stat-num">50+</div>
-      <div class="stat-label">Video đã sản xuất</div>
+      <div class="stat-num">13+</div>
+      <div class="stat-label">Tập phim đã phát sóng</div>
     </div>
     <div class="stat-box">
-      <div class="stat-num">5</div>
-      <div class="stat-label">Năm kinh nghiệm</div>
+      <div class="stat-num">HTV3</div>
+      <div class="stat-label">Kênh truyền hình thiếu nhi</div>
     </div>
     <div class="stat-box">
       <div class="stat-num">100%</div>
-      <div class="stat-label">Sản xuất trong nhà</div>
+      <div class="stat-label">Biên tập & Hậu kỳ</div>
     </div>
   </div>
 
-  <!-- Overview -->
+  <!-- Video Gallery -->
   <div class="section reveal">
-    <div class="section-title">Tổng quan dự án</div>
-    <p class="desc-text">
-      HTVKIDS là kênh YouTube nội dung thiếu nhi, nơi tôi đảm nhận toàn bộ quy trình sản xuất video —
-      từ lên ý tưởng, quay hình, dựng phim, thêm hiệu ứng âm thanh đến tối ưu hoá nội dung cho nền tảng.
-    </p>
-    <p class="desc-text">
-      Mỗi video được thiết kế để thu hút và giữ chân khán giả nhỏ tuổi, kết hợp hình ảnh sinh động,
-      âm nhạc phù hợp và câu chuyện hấp dẫn.
-    </p>
-  </div>
+    <div class="section-title">
+      <span>Danh Sách Tập Phim "Bếp Bốn Mùa"</span>
+      <span class="section-subtitle">Bấm vào video để xem trực tiếp</span>
+    </div>
+    <div class="video-grid">
+      <div class="video-card" onclick="openModal('W4Jje70ovsw')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/W4Jje70ovsw/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 1" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 1</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 1</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('0dmnmqb_gCY')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/0dmnmqb_gCY/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 2" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 2</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 2</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('6DvwDHJTRZ4')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/6DvwDHJTRZ4/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 3" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 3</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 3</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('u-xQiG1upko')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/u-xQiG1upko/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 4" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 4</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 4</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('zrN2qbOvQDM')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/zrN2qbOvQDM/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 5" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 5</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 5</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('aAbf_VJP4oc')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/aAbf_VJP4oc/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 6" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 6</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 6</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('9ioF6IqChU4')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/9ioF6IqChU4/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 7" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 7</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 7</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('hxtDMcvRVuE')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/hxtDMcvRVuE/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 8" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 8</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 8</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('6VcAs3R85EY')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/6VcAs3R85EY/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 9" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 9</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 9</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('Y7O8YVXGlH8')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/Y7O8YVXGlH8/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 10" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 10</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 10</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('Nm-_YKSY9Eo')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/Nm-_YKSY9Eo/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 11" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 11</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 11</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('iYpj2wfLZ_A')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/iYpj2wfLZ_A/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 12" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 12</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 12</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" onclick="openModal('2RB8ZhjUdJ4')">
+        <div class="thumb-wrapper">
+          <img class="thumb-img" src="https://img.youtube.com/vi/2RB8ZhjUdJ4/hqdefault.jpg" alt="Bếp Bốn Mùa — Tập 16" loading="lazy" />
+          <div class="play-badge">▶</div>
+          <div class="ep-tag">Tập 16</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bếp Bốn Mùa — Tập 16</div>
+          <div class="card-meta">
+            <span class="card-channel">HTV3 / HTVKIDS</span>
+            <span>Xem Video →</span>
+          </div>
+        </div>
+      </div>
 
-  <!-- Gallery -->
-  <div class="section reveal">
-    <div class="section-title">Một số video tiêu biểu</div>
-    <div class="gallery">
-      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#1e1b4b,#3730a3);">🎬</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#1d4ed8,#0ea5e9);">🎥</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#6d28d9,#a78bfa);">✨</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#0f172a,#1e3a5f);">🎵</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#312e81,#4338ca);">🌟</div></div>
-      <div class="gallery-item"><div class="gallery-item-inner" style="background: linear-gradient(135deg,#0c4a6e,#0369a1);">🎭</div></div>
     </div>
   </div>
 
   <!-- Process -->
   <div class="section reveal">
-    <div class="section-title">Quy trình sản xuất</div>
+    <div class="section-title">Quy trình sản xuất & Biên tập</div>
     <div class="process-list">
       <div class="process-item">
         <div class="process-num">1</div>
         <div>
-          <div class="process-title">Lên concept & kịch bản</div>
-          <div class="process-desc">Nghiên cứu xu hướng, xác định chủ đề phù hợp độ tuổi, viết kịch bản và storyboard chi tiết.</div>
+          <div class="process-title">Lên concept & Kịch bản dựng</div>
+          <div class="process-desc">Xây dựng mạch cảm xúc câu chuyện nấu ăn gia đình, phân loại các phân đoạn nguyên liệu, chế biến và thưởng thức.</div>
         </div>
       </div>
       <div class="process-item">
         <div class="process-num">2</div>
         <div>
-          <div class="process-title">Quay & thu âm</div>
-          <div class="process-desc">Quay hình với thiết bị chuyên nghiệp, thu âm voiceover và sound effect phù hợp.</div>
+          <div class="process-title">Quay hình & Thu âm hiện trường</div>
+          <div class="process-desc">Ghi hình multi-cam chi tiết thao tác làm bếp, kết hợp thu âm voiceover hướng dẫn và tiếng động thực tế.</div>
         </div>
       </div>
       <div class="process-item">
         <div class="process-num">3</div>
         <div>
           <div class="process-title">Dựng phim & Motion Graphics</div>
-          <div class="process-desc">Biên tập, colour grading, thêm motion graphics, lower thirds và hiệu ứng chuyển cảnh.</div>
+          <div class="process-desc">Biên tập cắt dựng nhịp nhàng, chỉnh màu tươi sáng rực rỡ, lồng bảng nguyên liệu (Lower Thirds) và hiệu ứng sống động.</div>
         </div>
       </div>
       <div class="process-item">
         <div class="process-num">4</div>
         <div>
-          <div class="process-title">Xuất bản & tối ưu hoá</div>
-          <div class="process-desc">Tối ưu thumbnail, tiêu đề, mô tả và tags để tăng lượt xem tự nhiên trên YouTube.</div>
+          <div class="process-title">Tối ưu hoá & Xuất bản YouTube</div>
+          <div class="process-desc">Xuất bản chuẩn định dạng HD/4K, thiết kế Thumbnail bắt mắt và tối ưu thẻ tags truyền thông.</div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Next project -->
-  <a href="project-design.html" class="next-project reveal">
+  <a href="project-film.html" class="next-project reveal">
     <div>
       <div class="next-label">Dự án tiếp theo</div>
-      <div class="next-title">Visual Design Collection</div>
+      <div class="next-title">Social Clips & Video Production</div>
     </div>
     <div class="next-arrow">→</div>
   </a>
 
 </div>
 
-<script>
-  // Spotlight effect
-  document.querySelectorAll('.stat-box, .process-item, .next-project').forEach(el => {
-    el.addEventListener('mousemove', e => {
-      const rect = el.getBoundingClientRect();
-      el.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
-      el.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`);
-    });
-  });
+<!-- Video Modal Popup -->
+<div class="modal-overlay" id="videoModal" onclick="closeModal(event)">
+  <div class="modal-content">
+    <div class="close-modal" onclick="closeModal(event)">✕</div>
+    <iframe id="youtubeIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
 
-  // Reveal
+<script>
+  function openModal(videoId) {
+    const modal = document.getElementById("videoModal");
+    const iframe = document.getElementById("youtubeIframe");
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    modal.classList.add("active");
+  }
+
+  function closeModal(e) {
+    if (e.target.id === "videoModal" || e.target.classList.contains("close-modal")) {
+      const modal = document.getElementById("videoModal");
+      const iframe = document.getElementById("youtubeIframe");
+      iframe.src = "";
+      modal.classList.remove("active");
+    }
+  }
+
+  // Reveal Animation
   const observer = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 100); observer.unobserve(e.target); } });
+    entries.forEach((e, i) => { 
+      if (e.isIntersecting) { 
+        setTimeout(() => e.target.classList.add("visible"), i * 100); 
+        observer.unobserve(e.target); 
+      } 
+    });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
