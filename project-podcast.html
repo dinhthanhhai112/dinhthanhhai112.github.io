@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Podcast & Talkshow Production | Đinh Thanh Hải</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #060608;
+      --glass: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+      --glass-hover: rgba(255,255,255,0.1);
+      --text: #f0f0f5;
+      --muted: rgba(240,240,245,0.55);
+      --accent: #c084fc;
+      --accent2: #60a5fa;
+      --glow: rgba(192,132,252,0.3);
+      --font: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; animation: drift 18s ease-in-out infinite alternate; }
+    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, #7e22ce, transparent 70%); top: -100px; left: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, #3b82f6, transparent 70%); bottom: 0; right: -100px; animation-delay: -8s; }
+    @keyframes drift { 0% { transform: translate(0,0); } 100% { transform: translate(30px, -40px); } }
+
+    /* Back button */
+    .back-btn {
+      position: fixed; top: 24px; left: 24px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(10,10,15,0.6);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 100px; padding: 10px 20px;
+      color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.12); transform: translateX(-2px); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* Hero */
+    .project-hero {
+      min-height: 50vh; display: flex; align-items: flex-end;
+      padding: 120px 0 50px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      position: relative;
+    }
+    .project-hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(135deg, #3b0764, #581c87, #1d4ed8);
+      opacity: 0.35;
+    }
+    .project-hero-content { position: relative; z-index: 1; }
+    .project-cat {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .project-cat::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+    .project-title { font-size: clamp(38px, 6.5vw, 64px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 16px; }
+    .project-subtitle { font-size: 18px; color: var(--muted); max-width: 650px; line-height: 1.65; }
+
+    /* Tags */
+    .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+    .tag {
+      background: rgba(192,132,252,0.12); border: 1px solid rgba(192,132,252,0.25);
+      border-radius: 100px; padding: 6px 16px; font-size: 13px; color: var(--accent); font-weight: 500;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin: 40px 0 60px;
+    }
+    .stat-box {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px; padding: 24px; text-align: center;
+    }
+    .stat-num { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* Section */
+    .section { padding: 40px 0; }
+    .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: space-between; }
+    .section-subtitle { font-size: 15px; color: var(--muted); font-weight: 400; }
+
+    .desc-text { font-size: 16px; line-height: 1.8; color: rgba(240,240,245,0.8); margin-bottom: 16px; }
+
+    /* Video Grid */
+    .video-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .video-grid { grid-template-columns: 1fr; } }
+
+    .video-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 18px; overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer; position: relative;
+    }
+    .video-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(192,132,252,0.4);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 20px var(--glow);
+    }
+    .thumb-wrapper {
+      position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000;
+    }
+    .thumb-img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .video-card:hover .thumb-img {
+      transform: scale(1.06);
+      filter: brightness(0.85);
+    }
+    .play-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 54px; height: 54px; border-radius: 50%;
+      background: rgba(192,132,252,0.85); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 20px; padding-left: 3px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .video-card:hover .play-badge {
+      transform: translate(-50%, -50%) scale(1.15);
+      background: #c084fc;
+    }
+    .ep-tag {
+      position: absolute; bottom: 10px; right: 10px;
+      background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; color: #fff;
+    }
+    .card-info { padding: 18px; }
+    .card-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
+    .card-meta { font-size: 13px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; }
+    .card-channel { color: var(--accent2); font-weight: 500; }
+
+    /* Modal Video Popup */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(4, 4, 8, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-content {
+      width: 90%; max-width: 960px; aspect-ratio: 16/9;
+      background: #000; border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--glass-border); box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      position: relative; transform: scale(0.92); transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-content { transform: scale(1); }
+    .modal-content iframe { width: 100%; height: 100%; border: none; }
+    .close-modal {
+      position: absolute; top: 16px; right: 16px; z-index: 10;
+      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; width: 40px; height: 40px; border-radius: 50%;
+      font-size: 20px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .close-modal:hover { background: rgba(255,255,255,0.3); }
+
+    /* Process list */
+    .process-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+    .process-item {
+      display: flex; gap: 20px; align-items: flex-start;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px; padding: 24px;
+    }
+    .process-num {
+      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700;
+    }
+    .process-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .process-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* Next project */
+    .next-project {
+      margin: 80px 0 60px;
+      text-decoration: none;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px; padding: 36px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: transform 0.25s, background 0.25s;
+    }
+    .next-project:hover { transform: translateY(-4px); background: var(--glass-hover); }
+    .next-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .next-title { font-size: 22px; font-weight: 700; color: var(--text); }
+    .next-arrow { font-size: 32px; color: var(--accent); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<a href="index.html" class="back-btn">← Quay lại Trang Chủ</a>
+
+<!-- Hero -->
+<div class="project-hero">
+  <div class="project-hero-bg"></div>
+  <div class="container">
+    <div class="project-hero-content">
+      <div class="project-cat">Podcast & Talkshow Post-Production</div>
+      <h1 class="project-title">Podcast & Talkshow Series</h1>
+      <p class="project-subtitle">Hậu kỳ đa kênh cho các chương trình Podcast & Talkshow quy mô lớn — bao gồm cắt dựng Multi-cam, xử lý âm thanh AI lọc thoại chuyên sâu và xuất bản đa nền tảng.</p>
+      <div class="tags">
+        <span class="tag">Podcast Editing</span>
+        <span class="tag">Multi-Cam Editing</span>
+        <span class="tag">AI Speaker Separation</span>
+        <span class="tag">Audio Mastering</span>
+        <span class="tag">Social Cutdowns</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Stats -->
+  <div class="stats-row reveal">
+    <div class="stat-box">
+      <div class="stat-num">Multi-Cam</div>
+      <div class="stat-label">Đồng bộ 3-4 máy quay HD/4K</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">AI Audio</div>
+      <div class="stat-label">Xử lý lọc nhiễu & Tách tiếng</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">Full & Reels</div>
+      <div class="stat-label">Xuất bản 16:9 & Shorts 9:16</div>
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <div class="section reveal">
+    <div class="section-title">Tổng quan Năng lực Dựng Podcast</div>
+    <p class="desc-text">
+      Các dự án Podcast & Talkshow đòi hỏi sự chỉn chu tuyệt đối về cả <strong>thị giác (Visual)</strong> lẫn <strong>thính giác (Audio)</strong>. Tôi cung cấp quy trình hậu kỳ trọn gói từ xử lý âm thanh đa đường (Multitrack Audio Mastering), tách giọng thoại bằng công nghệ AI, cắt dựng góc máy chuyển cảnh tự nhiên theo nhịp nói, cho đến trích xuất loạt clip ngắn (Reels/Shorts) truyền thông mạng xã hội.
+    </p>
+  </div>
+
+  <!-- Video Gallery -->
+  <div class="section reveal">
+    <div class="section-title">
+      <span>Danh Sách Kênh & Tập Podcast Tiêu Biểu</span>
+      <span class="section-subtitle">Đang cập nhật các tệp video từ kênh của bạn</span>
+    </div>
+    <div class="video-grid" id="podcastVideoGrid">
+      <!-- Placeholder card while waiting for links -->
+      <div class="video-card">
+        <div class="thumb-wrapper">
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#311042,#6b21a8);font-size:48px;">🎙️</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Sẵn sàng nhận Link Podcast từ Kênh của bạn</div>
+          <div class="card-meta">
+            <span class="card-channel">Podcast Series</span>
+            <span>Gửi link tại đây →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Process -->
+  <div class="section reveal">
+    <div class="section-title">Quy trình Hậu kỳ Podcast Chuyên nghiệp</div>
+    <div class="process-list">
+      <div class="process-item">
+        <div class="process-num">1</div>
+        <div>
+          <div class="process-title">Đồng bộ Multi-Cam & Xử lý Âm thanh Multitrack</div>
+          <div class="process-desc">Đồng bộ timeline các góc máy (Multi-cam), làm sạch dải âm thoại cài áo Lav, lọc nhiễu phòng và áp dụng AI SpeakerSplit tách kênh thoại rõ ràng.</div>
+        </div>
+      </div>
+      <div class="process-item">
+        <div class="process-num">2</div>
+        <div>
+          <div class="process-title">Biên tập Cắt dựng thoại & Chuyển góc máy (Visual Pacing)</div>
+          <div class="process-desc">Cắt bỏ đoạn nói vấp/nói lặp (Jump cuts cleanup), chuyển góc máy mượt mà bám sát diễn biến câu chuyện của người nói và người nghe.</div>
+        </div>
+      </div>
+      <div class="process-item">
+        <div class="process-num">3</div>
+        <div>
+          <div class="process-title">Chỉnh màu Cinema & Thiết kế Đồ họa (Color & Lower Thirds)</div>
+          <div class="process-desc">Cân chỉnh màu sắc chuẩn tone màu ấm áp chuyên nghiệp, thêm thanh giới thiệu tên diễn giả (Lower Thirds) và hiệu ứng chuyển cảnh điện ảnh.</div>
+        </div>
+      </div>
+      <div class="process-item">
+        <div class="process-num">4</div>
+        <div>
+          <div class="process-title">Trích xuất Clip ngắn & Xuất bản Đa nền tảng (Shorts & Audio Master)</div>
+          <div class="process-desc">Xuất bản tệp Full Episode 16:9 chuẩn YouTube/Spotify, đồng thời trích cắt các điểm nhấn đắt giá (Highlight Reels) định dạng 9:16 cho TikTok/Shorts.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next project -->
+  <a href="project-htvkids.html" class="next-project reveal">
+    <div>
+      <div class="next-label">Dự án tiếp theo</div>
+      <div class="next-title">HTVKIDS — Bếp Bốn Mùa</div>
+    </div>
+    <div class="next-arrow">→</div>
+  </a>
+
+</div>
+
+<!-- Video Modal Popup -->
+<div class="modal-overlay" id="videoModal" onclick="closeModal(event)">
+  <div class="modal-content">
+    <div class="close-modal" onclick="closeModal(event)">✕</div>
+    <iframe id="youtubeIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+  function openModal(videoId) {
+    const modal = document.getElementById("videoModal");
+    const iframe = document.getElementById("youtubeIframe");
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    modal.classList.add("active");
+  }
+
+  function closeModal(e) {
+    if (e.target.id === "videoModal" || e.target.classList.contains("close-modal")) {
+      const modal = document.getElementById("videoModal");
+      const iframe = document.getElementById("youtubeIframe");
+      iframe.src = "";
+      modal.classList.remove("active");
+    }
+  }
+
+  // Reveal Animation
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => { 
+      if (e.isIntersecting) { 
+        setTimeout(() => e.target.classList.add("visible"), i * 100); 
+        observer.unobserve(e.target); 
+      } 
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
