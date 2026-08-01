@@ -69,7 +69,7 @@
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 24px; border-bottom: 1px solid var(--glass-border); padding-bottom: 14px;
       flex-wrap: wrap; gap: 14px;
-    }
+    }}
     .filter-title { font-size: 20px; font-weight: 700; }
     .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
     .tab-btn {
@@ -83,9 +83,9 @@
       color: #fff; font-weight: 600; box-shadow: 0 4px 16px rgba(45,212,191,0.2);
     }
 
-    /* Video Showcase Grid (2 Column Large Display) */
+    /* Video Showcase Grid */
     .video-showcase-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: start;
     }
     @media (max-width: 768px) { .video-showcase-grid { grid-template-columns: 1fr; } }
 
@@ -93,7 +93,7 @@
       background: var(--glass); border: 1px solid var(--glass-border);
       backdrop-filter: blur(20px); border-radius: 18px; overflow: hidden;
       transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
+      position: relative; cursor: pointer;
     }
     .showcase-card.hidden { display: none; }
     .showcase-card:hover {
@@ -103,21 +103,66 @@
     }
 
     .video-wrapper {
-      position: relative; width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden;
+      position: relative; width: 100%; background: #040408; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      max-height: 420px;
     }
     .video-wrapper video {
-      width: 100%; height: 100%; object-fit: cover; display: block; border: none;
+      width: 100%; height: auto; max-height: 420px;
+      object-fit: contain; display: block; border: none; background: #000;
+    }
+    .play-overlay-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(45,212,191,0.85); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      color: #000; font-size: 20px; padding-left: 3px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease, background 0.3s ease;
+      pointer-events: none; opacity: 0.9;
+    }
+    .showcase-card:hover .play-overlay-badge {
+      transform: translate(-50%, -50%) scale(1.15); background: #2dd4bf; opacity: 1;
     }
 
-    .card-info { padding: 18px 20px; }
+    .card-info { padding: 16px 20px; }
     .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-    .card-title { font-size: 16px; font-weight: 700; color: var(--text); }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--text); }
     .card-cat-badge {
       font-size: 11px; font-weight: 600; color: var(--accent);
       background: rgba(45,212,191,0.12); border: 1px solid rgba(45,212,191,0.25);
       border-radius: 100px; padding: 4px 12px;
     }
-    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* Glassmorphic Lightbox Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(3, 3, 7, 0.92); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+      display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease; padding: 20px;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-content {
+      position: relative; max-width: 92vw; max-height: 88vh;
+      background: #000; border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--glass-border); box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+      display: flex; align-items: center; justify-content: center;
+      transform: scale(0.92); transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-content { transform: scale(1); }
+    .modal-content video {
+      max-width: 90vw; max-height: 82vh; width: auto; height: auto;
+      object-fit: contain; display: block; border: none; border-radius: 18px;
+    }
+    .close-modal {
+      position: absolute; top: 16px; right: 16px; z-index: 20;
+      background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; width: 42px; height: 42px; border-radius: 50%;
+      font-size: 20px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s, transform 0.2s;
+    }
+    .close-modal:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
 
     /* Compact 2x2 Process Grid */
     .process-grid {
@@ -176,7 +221,7 @@
     <div class="stats-bar">
       <div class="stat-pill">✨ <strong>After Effects</strong> & Premiere Pro</div>
       <div class="stat-pill">🎬 <strong>2D/3D Motion</strong> Showcase</div>
-      <div class="stat-pill">⚡ <strong>24fps / 60fps</strong> Smooth Easing</div>
+      <div class="stat-pill">⚡ <strong>100% Native Aspect Ratio</strong> Lightbox</div>
     </div>
   </div>
 
@@ -188,137 +233,145 @@
         <button class="tab-btn active" onclick="filterVids('all', this)">Tất cả Video</button>
         <button class="tab-btn" onclick="filterVids('motion', this)">Motion Graphics</button>
         <button class="tab-btn" onclick="filterVids('2d', this)">2D Animation</button>
-        <button class="tab-btn" onclick="filterVids('reels', this)">Social Reels</button>
+        <button class="tab-btn" onclick="filterVids('reels', this)">Social Reels (9:16)</button>
       </div>
     </div>
 
     <div class="video-showcase-grid">
 
       <!-- Video 1 -->
-      <div class="showcase-card mix-2d">
+      <div class="showcase-card mix-2d" onclick="openVideoModal('assets/videos/animation1.mp4')">
         <div class="video-wrapper">
-          <video controls preload="metadata" playsinline muted loop poster="assets/images/img1.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
+          <video preload="metadata" playsinline muted loop poster="assets/images/img1.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
             <source src="assets/videos/animation1.mp4" type="video/mp4">
           </video>
+          <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
           <div class="card-head">
             <div class="card-title">Showcase 2D Animation Master</div>
             <span class="card-cat-badge">2D Animation</span>
           </div>
-          <div class="card-desc">Animation 2D tổng hợp cho truyền thông với chuyển động mượt mà và phối màu ấn tượng.</div>
+          <div class="card-desc">Animation 2D tổng hợp với kỹ thuật chuyển động sinh động. Bấm để xem chuẩn tỉ lệ →</div>
         </div>
       </div>
 
       <!-- Video 2 -->
-      <div class="showcase-card mix-motion">
+      <div class="showcase-card mix-motion" onclick="openVideoModal('assets/videos/anim2.mp4')">
         <div class="video-wrapper">
-          <video controls preload="metadata" playsinline muted loop poster="assets/images/img2.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
+          <video preload="metadata" playsinline muted loop poster="assets/images/img2.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
             <source src="assets/videos/anim2.mp4" type="video/mp4">
           </video>
+          <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
           <div class="card-head">
             <div class="card-title">Motion Intro & Particle Reveal</div>
             <span class="card-cat-badge">Motion Graphics</span>
           </div>
-          <div class="card-desc">Hiệu ứng Intro chuyển động đồ họa kết hợp particle lighting cho kênh truyền thông.</div>
+          <div class="card-desc">Hiệu ứng Intro chuyển động đồ họa kết hợp particle lighting. Bấm để xem chuẩn tỉ lệ →</div>
         </div>
       </div>
 
       <!-- Video 3 -->
-      <div class="showcase-card mix-2d">
+      <div class="showcase-card mix-2d" onclick="openVideoModal('assets/videos/anim3.mp4')">
         <div class="video-wrapper">
-          <video controls preload="metadata" playsinline muted loop poster="assets/images/img3.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
+          <video preload="metadata" playsinline muted loop poster="assets/images/img3.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
             <source src="assets/videos/anim3.mp4" type="video/mp4">
           </video>
+          <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
           <div class="card-head">
             <div class="card-title">Character Animation & Storytelling</div>
             <span class="card-cat-badge">2D Animation</span>
           </div>
-          <div class="card-desc">Hoạt họa nhân vật 2D sống động cho các dự án nội dung giải trí và giáo dục thiếu nhi.</div>
+          <div class="card-desc">Hoạt họa nhân vật 2D cho nội dung giải trí thiếu nhi. Bấm để xem chuẩn tỉ lệ →</div>
         </div>
       </div>
 
       <!-- Video 4 -->
-      <div class="showcase-card mix-motion">
+      <div class="showcase-card mix-motion" onclick="openVideoModal('assets/videos/anim4.mp4')">
         <div class="video-wrapper">
-          <video controls preload="metadata" playsinline muted loop poster="assets/images/img4.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
+          <video preload="metadata" playsinline muted loop poster="assets/images/img4.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
             <source src="assets/videos/anim4.mp4" type="video/mp4">
           </video>
+          <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
           <div class="card-head">
             <div class="card-title">Transitions & VFX Pack</div>
             <span class="card-cat-badge">Motion Graphics</span>
           </div>
-          <div class="card-desc">Bộ hiệu ứng chuyển cảnh và kỹ xảo đồ họa kỹ thuật số After Effects.</div>
+          <div class="card-desc">Bộ hiệu ứng chuyển cảnh kỹ thuật số After Effects. Bấm để xem chuẩn tỉ lệ →</div>
         </div>
       </div>
 
       <!-- Video 5 -->
-      <div class="showcase-card mix-motion">
+      <div class="showcase-card mix-motion" onclick="openVideoModal('assets/videos/anim5.mp4')">
         <div class="video-wrapper">
-          <video controls preload="metadata" playsinline muted loop poster="assets/images/img1.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
+          <video preload="metadata" playsinline muted loop poster="assets/images/img1.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
             <source src="assets/videos/anim5.mp4" type="video/mp4">
           </video>
+          <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
           <div class="card-head">
             <div class="card-title">Lower Thirds & Kinetic Titles</div>
             <span class="card-cat-badge">Motion Graphics</span>
           </div>
-          <div class="card-desc">Thanh đồ họa tiêu đề chữ động (Lower Thirds) tự động cân chỉnh cho video chuyên nghiệp.</div>
+          <div class="card-desc">Thanh đồ họa tiêu đề chữ động (Lower Thirds). Bấm để xem chuẩn tỉ lệ →</div>
         </div>
       </div>
 
       <!-- Video 6 -->
-      <div class="showcase-card mix-motion">
+      <div class="showcase-card mix-motion" onclick="openVideoModal('assets/videos/anim6.mp4')">
         <div class="video-wrapper">
-          <video controls preload="metadata" playsinline muted loop poster="assets/images/img2.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
+          <video preload="metadata" playsinline muted loop poster="assets/images/img2.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
             <source src="assets/videos/anim6.mp4" type="video/mp4">
           </video>
+          <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
           <div class="card-head">
             <div class="card-title">Brand Motion Graphic Sequence</div>
             <span class="card-cat-badge">Motion Graphics</span>
           </div>
-          <div class="card-desc">Phim chuyển động thương hiệu kết hợp nghệ thuật Typography và hiệu ứng ánh sáng.</div>
+          <div class="card-desc">Phim chuyển động thương hiệu Typography. Bấm để xem chuẩn tỉ lệ →</div>
         </div>
       </div>
 
       <!-- Video 7 -->
-      <div class="showcase-card mix-reels">
-        <div class="video-wrapper">
-          <video controls preload="metadata" playsinline muted loop poster="assets/images/img3.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
+      <div class="showcase-card mix-reels" onclick="openVideoModal('assets/videos/anim7.mp4')">
+        <div class="video-wrapper" style="max-height: 480px;">
+          <video preload="metadata" playsinline muted loop poster="assets/images/img3.jpg" onmouseenter="this.play()" onmouseleave="this.pause()" style="max-height: 480px;">
             <source src="assets/videos/anim7.mp4" type="video/mp4">
           </video>
+          <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
           <div class="card-head">
-            <div class="card-title">Social Motion Reel 9:16</div>
+            <div class="card-title">Social Motion Reel (Vertical 9:16)</div>
             <span class="card-cat-badge">Social Reels</span>
           </div>
-          <div class="card-desc">Clip ngắn chuyển động sáng tạo tối ưu cho nền tảng TikTok & Instagram Reels.</div>
+          <div class="card-desc">Clip ngắn dọc 9:16 cho TikTok/Reels. Bấm để xem đúng tỉ lệ dọc →</div>
         </div>
       </div>
 
       <!-- Video 8 -->
-      <div class="showcase-card mix-reels">
-        <div class="video-wrapper">
-          <video controls preload="metadata" playsinline muted loop poster="assets/images/img4.jpg" onmouseenter="this.play()" onmouseleave="this.pause()">
+      <div class="showcase-card mix-reels" onclick="openVideoModal('assets/videos/social1.mp4')">
+        <div class="video-wrapper" style="max-height: 480px;">
+          <video preload="metadata" playsinline muted loop poster="assets/images/img4.jpg" onmouseenter="this.play()" onmouseleave="this.pause()" style="max-height: 480px;">
             <source src="assets/videos/social1.mp4" type="video/mp4">
           </video>
+          <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
           <div class="card-head">
-            <div class="card-title">Commercial Motion Reel</div>
+            <div class="card-title">Commercial Motion Reel (Vertical 9:16)</div>
             <span class="card-cat-badge">Social Reels</span>
           </div>
-          <div class="card-desc">Video truyền thông ngắn kết hợp đồ họa và tiết tấu chuyển động hiện đại.</div>
+          <div class="card-desc">Video truyền thông ngắn dọc 9:16 mượt mà. Bấm để xem đúng tỉ lệ dọc →</div>
         </div>
       </div>
 
@@ -371,7 +424,31 @@
 
 </div>
 
+<!-- Native Aspect Ratio Lightbox Modal -->
+<div class="modal-overlay" id="videoLightbox" onclick="closeVideoModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="close-modal" onclick="closeVideoModal(event)">✕</div>
+    <video id="modalVideoPlayer" controls autoplay playsinline style="max-width: 90vw; max-height: 82vh; object-fit: contain;"></video>
+  </div>
+</div>
+
 <script>
+  function openVideoModal(videoSrc) {
+    const modal = document.getElementById("videoLightbox");
+    const video = document.getElementById("modalVideoPlayer");
+    video.src = videoSrc;
+    video.play();
+    modal.classList.add("active");
+  }
+
+  function closeVideoModal(e) {
+    const modal = document.getElementById("videoLightbox");
+    const video = document.getElementById("modalVideoPlayer");
+    video.pause();
+    video.src = "";
+    modal.classList.remove("active");
+  }
+
   function filterVids(cat, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
