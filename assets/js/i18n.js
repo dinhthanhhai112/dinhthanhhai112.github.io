@@ -177,6 +177,15 @@
 
   function setLanguage(lang) {
     if (!translations[lang]) return;
+
+    // Apply user custom edits if available
+    const customEdits = JSON.parse(localStorage.getItem("dth_custom_edits") || "{}");
+    if (customEdits[lang]) {
+      Object.keys(customEdits[lang]).forEach(k => {
+        translations[lang][k] = customEdits[lang][k];
+      });
+    }
+
     currentLang = lang;
     localStorage.setItem("dth_lang", lang);
 
@@ -196,6 +205,11 @@
     });
     document.documentElement.lang = lang;
   }
+
+  
+  window.applyCustomEdits = function() {
+    setLanguage(currentLang);
+  };
 
   document.addEventListener("DOMContentLoaded", () => {
     setLanguage(currentLang);
