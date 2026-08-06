@@ -211,14 +211,19 @@
   <div class="orb orb-2"></div>
 </div>
 
-<a href="index.html" class="back-btn">← Quay lại Trang Chủ</a>
+<a href="index.html" class="back-btn" data-i18n="back_home">← Quay lại Trang Chủ</a>
+<div class="lang-switch" style="position:fixed;top:16px;right:16px;z-index:100;background:rgba(10,10,15,0.7);border:1px solid rgba(255,255,255,0.12);backdrop-filter:blur(20px);border-radius:100px;padding:4px 10px;display:flex;align-items:center;gap:4px;">
+  <button class="lang-btn active" data-lang="vi" style="background:none;border:none;color:rgba(240,240,245,0.55);font-size:12px;font-weight:500;cursor:pointer;padding:3px 8px;border-radius:100px;transition:all 0.2s;">🇻🇳 VI</button>
+  <span style="color:rgba(255,255,255,0.2);font-size:11px;">|</span>
+  <button class="lang-btn" data-lang="en" style="background:none;border:none;color:rgba(240,240,245,0.55);font-size:12px;font-weight:500;cursor:pointer;padding:3px 8px;border-radius:100px;transition:all 0.2s;">🇬🇧 EN</button>
+</div>
 
 <div class="container">
 
   <!-- Hero -->
   <div class="project-hero">
-    <div class="project-cat">Motion Graphics & 2D Animation</div>
-    <h1 class="project-title">Animation Showcase</h1>
+    <div class="project-cat" data-i18n="anim_hero_cat">Thiết Kế Chuyển Động 2D</div>
+    <h1 class="project-title" data-i18n="anim_hero_title">Bộ Sưu Tập Đồ Họa Động 2D</h1>
     <p class="project-subtitle">Bộ sưu tập các video Motion Graphics 2D/3D, kỹ xảo đồ họa chuyển động và Reels truyền thông. Bấm vào bất kỳ video nào để xem chuẩn tỉ lệ gốc.</p>
     
     <div class="stats-bar">
@@ -231,7 +236,7 @@
   <!-- Video Showcase Gallery -->
   <div class="section reveal" style="padding-top: 10px;">
     <div class="filter-wrapper">
-      <div class="filter-title">Danh Sách Video Thành Phẩm</div>
+      <div class="filter-title" data-i18n="anim_hero_cat">Danh Sách Video Thành Phẩm</div>
       <div class="filter-tabs">
         <button class="tab-btn active" onclick="filterVids('all', this)">Tất cả Video</button>
         <button class="tab-btn" onclick="filterVids('motion', this)">Motion Graphics</button>
@@ -460,5 +465,6 @@
   }, { threshold: 0.1 });
   document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 </script>
+<script src="assets/js/i18n.js"></script>
 </body>
 </html>

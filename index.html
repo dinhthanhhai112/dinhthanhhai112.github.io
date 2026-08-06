@@ -730,7 +730,24 @@
       .about-stats { flex-direction: column; }
       nav .logo { display: none; }
     }
-  </style>
+  
+    /* Language Switcher */
+    .lang-switch {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(16px); border-radius: 100px; padding: 3px 8px; margin-left: 12px;
+    }
+    .lang-btn {
+      background: none; border: none; color: var(--muted);
+      font-size: 12px; font-weight: 500; cursor: pointer; padding: 3px 8px;
+      border-radius: 100px; transition: all 0.2s ease;
+    }
+    .lang-btn:hover, .lang-btn.active {
+      color: #fff; background: rgba(255,255,255,0.15); font-weight: 600;
+    }
+    .lang-divider { color: rgba(255,255,255,0.2); font-size: 11px; }
+
+</style>
 </head>
 <body>
 
@@ -759,14 +776,14 @@
         <span></span> Available for projects
       </div>
       <h1 class="hero-name">Đinh Thanh Hải</h1>
-      <p class="hero-title"><strong>Editor & Filmmaker</strong> — Creative Visual Storyteller</p>
+      <p class="hero-title"><strong data-i18n="hero_role">Chuyên gia Hậu kỳ & Biên tập Video</strong> — <span data-i18n="hero_role_sub">Kể chuyện trực quan sáng tạo</span></p>
       <p class="hero-desc">
         5 năm kinh nghiệm chuyên sâu trong Hậu kỳ Video, Dựng Podcast Multi-Cam, Motion Graphics và Thiết kế Đồ họa.
         Tôi biến ý tưởng thành những câu chuyện hình ảnh điện ảnh sắc nét và cảm xúc.
       </p>
       <div class="hero-cta">
-        <a href="#projects" class="btn-primary">Xem Projects ↓</a>
-        <a href="#contact" class="btn-ghost">Liên hệ</a>
+        <a href="#projects" class="btn-primary" data-i18n="btn_projects">Khám Phá Dự Án ↓</a>
+        <a href="#contact" class="btn-ghost" data-i18n="btn_contact">Liên Hệ Ngay</a>
       </div>
     </div>
   </div>
@@ -776,31 +793,31 @@
 <section id="about">
   <div class="container">
     <div class="reveal">
-      <p class="section-label">About Me</p>
-      <h2 class="section-title">Đam mê — Sáng tạo — Kể chuyện</h2>
-      <p class="section-sub">Chuyên gia Hậu kỳ Video & Podcast với đam mê tạo dựng những sản phẩm hình ảnh chuẩn quốc tế.</p>
+      <p class="section-label" data-i18n="about_label">Giới Thiệu</p>
+      <h2 class="section-title" data-i18n="about_title">Đam Mê — Sáng Tạo — Kể Chuyện</h2>
+      <p class="section-sub" data-i18n="about_sub">Chuyên gia Hậu kỳ Video & Podcast với đam mê tạo dựng những sản phẩm hình ảnh chuẩn quốc tế.</p>
     </div>
     <div class="about-grid">
       <div class="glass about-card about-main reveal">
         <p>
-          Với hơn 5 năm kinh nghiệm trong ngành sản xuất nội dung số và truyền thông, tôi chuyên đảm nhận hậu kỳ trọn gói từ dựng video podcast dài, xử lý âm thanh kỹ lưỡng đến chỉnh màu điện ảnh và thiết kế chuyển động 2D.
+          <span data-i18n="about_p1">Với hơn 5 năm kinh nghiệm trong ngành sản xuất nội dung số và truyền thông, tôi chuyên đảm nhận hậu kỳ trọn gói từ dựng video podcast dài, xử lý âm thanh kỹ lưỡng đến chỉnh màu điện ảnh và thiết kế chuyển động 2D.</span>
         </p>
         <p>
-          Từng thực hiện hàng loạt dự án đa dạng — từ các series Podcast & Talkshow quốc tế, chương trình truyền hình giải trí, đến các dự án video truyền thông doanh nghiệp và đồ họa quảng cáo — tôi luôn mang tới góc nhìn tươi mới và sự chỉn chu tuyệt đối trong từng khung hình.
+          <span data-i18n="about_p2">Từng thực hiện hàng loạt dự án đa dạng — từ các series Podcast & Talkshow quốc tế, chương trình truyền hình giải trí, đến các dự án video truyền thông doanh nghiệp và đồ họa quảng cáo — tôi luôn mang tới góc nhìn tươi mới và sự chỉn chu tuyệt đối trong từng khung hình.</span>
         </p>
       </div>
       <div class="about-stats">
         <div class="glass stat-item reveal">
           <div class="stat-num">5+</div>
-          <div class="stat-label">Năm kinh nghiệm</div>
+          <div class="stat-label" data-i18n="stat_years">Năm kinh nghiệm</div>
         </div>
         <div class="glass stat-item reveal">
           <div class="stat-num">50+</div>
-          <div class="stat-label">Video & Podcast hoàn thiện</div>
+          <div class="stat-label" data-i18n="stat_projects">Video & Tập phim hoàn thiện</div>
         </div>
         <div class="glass stat-item reveal">
           <div class="stat-num">5</div>
-          <div class="stat-label">Lĩnh vực chuyên môn</div>
+          <div class="stat-label" data-i18n="stat_fields">Lĩnh vực chuyên môn</div>
         </div>
       </div>
     </div>
@@ -860,9 +877,9 @@
 <section id="projects">
   <div class="container">
     <div class="reveal">
-      <p class="section-label">Work</p>
-      <h2 class="section-title">Projects</h2>
-      <p class="section-sub">Một số dự án tiêu biểu trong hành trình sáng tạo của tôi.</p>
+      <p class="section-label" data-i18n="work_label">Tác Phẩm</p>
+      <h2 class="section-title" data-i18n="projects_title">Dự Án Tiêu Biểu</h2>
+      <p class="section-sub" data-i18n="projects_sub">Một số dự án nổi bật trong hành trình sáng tạo của tôi.</p>
     </div>
     <div class="projects-grid">
 
@@ -986,7 +1003,7 @@
   <div class="container">
     <div class="reveal">
       <p class="section-label">Get in Touch</p>
-      <h2 class="section-title">Liên hệ</h2>
+      <h2 class="section-title" data-i18n="contact_title">Khởi Đầu Dự Án Mới Cùng Nhau</h2>
       <p class="section-sub">Bạn có dự án thú vị? Hãy nói chuyện với tôi.</p>
     </div>
     <div class="contact-wrap">
@@ -1119,5 +1136,6 @@
     }, 3000);
   });
 </script>
+<script src="assets/js/i18n.js"></script>
 </body>
 </html>
