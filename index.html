@@ -215,7 +215,7 @@
       max-width: 100%;
     }
 
-    .hero-badge span {
+    .hero-badge .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -223,6 +223,7 @@
       box-shadow: 0 0 10px #22c55e;
       animation: onlinePulse 1.8s ease-in-out infinite;
       display: inline-block;
+      flex-shrink: 0;
     }
 
     @keyframes onlinePulse {
@@ -970,7 +971,7 @@
       <!-- Left Column: Hero Copy -->
       <div class="hero-inner">
         <div class="hero-badge">
-          <span></span> <span data-i18n="hero_available">Sẵn sàng nhận dự án mới</span>
+          <span class="status-dot"></span> <span data-i18n="hero_available">Sẵn sàng nhận dự án mới</span>
         </div>
         <h1 class="hero-name">Đinh Thanh Hải</h1>
         <p class="hero-title"><strong data-i18n="hero_role">Chuyên gia Hậu kỳ & Biên tập Video</strong> — <span data-i18n="hero_role_sub">Kể chuyện trực quan sáng tạo</span></p>
