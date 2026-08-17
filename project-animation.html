@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Motion Graphics & Animation Showcase | Đinh Thanh Hải</title>
+  <title>Motion Graphics & 2D Animation | Đinh Thanh Hải</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -83,7 +83,7 @@
       color: #fff; font-weight: 600; box-shadow: 0 4px 16px rgba(45,212,191,0.2);
     }
 
-    /* Video Showcase Grid - Neat Uniform Cards on Grid */
+    /* Video Showcase Grid */
     .video-showcase-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
     }
@@ -103,7 +103,6 @@
       box-shadow: 0 14px 32px rgba(0,0,0,0.6), 0 0 20px var(--glow);
     }
 
-    /* Uniform 16:9 aspect ratio on Grid view */
     .video-wrapper {
       position: relative; width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden;
     }
@@ -136,9 +135,9 @@
       background: rgba(45,212,191,0.12); border: 1px solid rgba(45,212,191,0.25);
       border-radius: 100px; padding: 3px 10px; white-space: nowrap;
     }
-    .card-desc { font-size: 12px; color: var(--muted); line-height: 1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .card-desc { font-size: 12px; color: var(--muted); line-height: 1.45; }
 
-    /* Glassmorphic Lightbox Modal - Native Aspect Ratio WHEN CLICKED */
+    /* Lightbox Modal */
     .modal-overlay {
       position: fixed; inset: 0; z-index: 1000;
       background: rgba(3, 3, 7, 0.94); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
@@ -167,7 +166,7 @@
     }
     .close-modal:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
 
-    /* Compact 2x2 Process Grid */
+    /* Compact Process Grid */
     .process-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 16px;
     }
@@ -212,6 +211,7 @@
 </div>
 
 <a href="index.html" class="back-btn" data-i18n="back_home">← Quay lại Trang Chủ</a>
+
 <div class="lang-switch" style="position:fixed;top:16px;right:16px;z-index:100;background:rgba(10,10,15,0.7);border:1px solid rgba(255,255,255,0.12);backdrop-filter:blur(20px);border-radius:100px;padding:4px 10px;display:flex;align-items:center;gap:4px;">
   <button class="lang-btn active" data-lang="vi" style="background:none;border:none;color:rgba(240,240,245,0.55);font-size:12px;font-weight:500;cursor:pointer;padding:3px 8px;border-radius:100px;transition:all 0.2s;">🇻🇳 VI</button>
   <span style="color:rgba(255,255,255,0.2);font-size:11px;">|</span>
@@ -224,7 +224,7 @@
   <div class="project-hero">
     <div class="project-cat" data-i18n="anim_hero_cat">Thiết Kế Chuyển Động 2D</div>
     <h1 class="project-title" data-i18n="anim_hero_title">Bộ Sưu Tập Đồ Họa Động 2D</h1>
-    <p class="project-subtitle">Bộ sưu tập các video Motion Graphics 2D/3D, kỹ xảo đồ họa chuyển động và Reels truyền thông. Bấm vào bất kỳ video nào để xem chuẩn tỉ lệ gốc.</p>
+    <p class="project-subtitle" data-i18n="anim_hero_sub">Các video thiết kế chuyển động 2D, kỹ xảo đồ họa, Intro/Outro và Clip ngắn truyền thông ấn tượng. Bấm vào video bất kỳ để xem chuẩn tỉ lệ gốc.</p>
     
     <div class="stats-bar">
       <div class="stat-pill">✨ <strong>After Effects</strong> & Premiere Pro</div>
@@ -236,12 +236,12 @@
   <!-- Video Showcase Gallery -->
   <div class="section reveal" style="padding-top: 10px;">
     <div class="filter-wrapper">
-      <div class="filter-title" data-i18n="anim_hero_cat">Danh Sách Video Thành Phẩm</div>
+      <div class="filter-title" data-i18n="anim_sec_title">Danh Sách Video Thành Phẩm</div>
       <div class="filter-tabs">
-        <button class="tab-btn active" onclick="filterVids('all', this)">Tất cả Video</button>
-        <button class="tab-btn" onclick="filterVids('motion', this)">Motion Graphics</button>
-        <button class="tab-btn" onclick="filterVids('2d', this)">2D Animation</button>
-        <button class="tab-btn" onclick="filterVids('reels', this)">Social Reels (9:16)</button>
+        <button class="tab-btn active" onclick="filterVids('all', this)" data-i18n="anim_filter_all">Tất Cả Video</button>
+        <button class="tab-btn" onclick="filterVids('motion', this)" data-i18n="anim_filter_motion">Đồ Họa Động</button>
+        <button class="tab-btn" onclick="filterVids('2d', this)" data-i18n="anim_filter_2d">Chuyển Động 2D</button>
+        <button class="tab-btn" onclick="filterVids('reels', this)" data-i18n="anim_filter_reels">Clip Ngắn Dọc (9:16)</button>
       </div>
     </div>
 
@@ -258,7 +258,7 @@
             <div class="card-title">Showcase 2D Animation Master</div>
             <span class="card-cat-badge">2D Animation</span>
           </div>
-          <div class="card-desc">Animation 2D tổng hợp với kỹ thuật chuyển động sinh động. Bấm để mở video tỉ lệ chuẩn →</div>
+          <div class="card-desc">Bấm để mở video tỉ lệ chuẩn →</div>
         </div>
       </div>
 
@@ -273,7 +273,7 @@
             <div class="card-title">Motion Intro & Particle Reveal</div>
             <span class="card-cat-badge">Motion Graphics</span>
           </div>
-          <div class="card-desc">Hiệu ứng Intro chuyển động đồ họa particle. Bấm để mở video tỉ lệ chuẩn →</div>
+          <div class="card-desc">Bấm để mở video tỉ lệ chuẩn →</div>
         </div>
       </div>
 
@@ -288,7 +288,7 @@
             <div class="card-title">Character Animation & Storytelling</div>
             <span class="card-cat-badge">2D Animation</span>
           </div>
-          <div class="card-desc">Hoạt họa nhân vật 2D thiếu nhi. Bấm để mở video tỉ lệ chuẩn →</div>
+          <div class="card-desc">Bấm để mở video tỉ lệ chuẩn →</div>
         </div>
       </div>
 
@@ -303,14 +303,14 @@
             <div class="card-title">Transitions & VFX Pack</div>
             <span class="card-cat-badge">Motion Graphics</span>
           </div>
-          <div class="card-desc">Bộ hiệu ứng chuyển cảnh kỹ thuật số After Effects. Bấm để mở video tỉ lệ chuẩn →</div>
+          <div class="card-desc">Bấm để mở video tỉ lệ chuẩn →</div>
         </div>
       </div>
 
       <!-- Video 5 -->
       <div class="showcase-card mix-motion" onclick="openVideoModal('assets/videos/anim5.mp4')">
         <div class="video-wrapper">
-          <img src="assets/images/vthumb1.jpg" alt="Lower Thirds & Kinetic Titles" />
+          <img src="assets/images/vthumb5.jpg" alt="Lower Thirds & Kinetic Titles" />
           <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
@@ -318,14 +318,14 @@
             <div class="card-title">Lower Thirds & Kinetic Titles</div>
             <span class="card-cat-badge">Motion Graphics</span>
           </div>
-          <div class="card-desc">Thanh đồ họa tiêu đề chữ động (Lower Thirds). Bấm để mở video tỉ lệ chuẩn →</div>
+          <div class="card-desc">Bấm để mở video tỉ lệ chuẩn →</div>
         </div>
       </div>
 
       <!-- Video 6 -->
       <div class="showcase-card mix-motion" onclick="openVideoModal('assets/videos/anim6.mp4')">
         <div class="video-wrapper">
-          <img src="assets/images/vthumb2.jpg" alt="Brand Motion Graphic Sequence" />
+          <img src="assets/images/vthumb6.jpg" alt="Brand Motion Graphic Sequence" />
           <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
@@ -333,14 +333,14 @@
             <div class="card-title">Brand Motion Graphic Sequence</div>
             <span class="card-cat-badge">Motion Graphics</span>
           </div>
-          <div class="card-desc">Phim chuyển động thương hiệu Typography. Bấm để mở video tỉ lệ chuẩn →</div>
+          <div class="card-desc">Bấm để mở video tỉ lệ chuẩn →</div>
         </div>
       </div>
 
       <!-- Video 7 -->
-      <div class="showcase-card mix-reels" onclick="openVideoModal('assets/videos/anim7.mp4')">
+      <div class="showcase-card mix-reels" onclick="openVideoModal('assets/videos/social/social2.mp4')">
         <div class="video-wrapper">
-          <img src="assets/images/vthumb3.jpg" alt="Social Motion Reel" />
+          <img src="assets/images/vthumb7.jpg" alt="Social Motion Reel" />
           <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
@@ -348,14 +348,14 @@
             <div class="card-title">Social Motion Reel (Dọc 9:16)</div>
             <span class="card-cat-badge">Social Reels</span>
           </div>
-          <div class="card-desc">Clip ngắn dọc 9:16 cho TikTok/Reels. Bấm để mở video tỉ lệ dọc 9:16 gốc →</div>
+          <div class="card-desc">Bấm để mở video tỉ lệ chuẩn →</div>
         </div>
       </div>
 
       <!-- Video 8 -->
-      <div class="showcase-card mix-reels" onclick="openVideoModal('assets/videos/social1.mp4')">
+      <div class="showcase-card mix-reels" onclick="openVideoModal('assets/videos/social/social3.mp4')">
         <div class="video-wrapper">
-          <img src="assets/images/vthumb4.jpg" alt="Commercial Motion Reel" />
+          <img src="assets/images/vthumb8.jpg" alt="Commercial Motion Reel" />
           <div class="play-overlay-badge">▶</div>
         </div>
         <div class="card-info">
@@ -363,7 +363,7 @@
             <div class="card-title">Commercial Motion Reel (Dọc 9:16)</div>
             <span class="card-cat-badge">Social Reels</span>
           </div>
-          <div class="card-desc">Video truyền thông ngắn dọc 9:16. Bấm để mở video tỉ lệ dọc 9:16 gốc →</div>
+          <div class="card-desc">Bấm để mở video tỉ lệ chuẩn →</div>
         </div>
       </div>
 
