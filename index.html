@@ -752,7 +752,8 @@
     .lang-divider { color: rgba(255,255,255,0.2); font-size: 11px; }
 
 
-    /* ── Hero 2-Column & Interactive Studio Console (Ideas 1 + 5) ── */
+    
+    /* ── Hero 2-Column & Creative Studio Console ── */
     #hero .hero-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -765,34 +766,51 @@
     }
 
     .hero-studio-console {
-      background: rgba(10,10,18,0.75);
-      border: 1px solid rgba(192,132,252,0.25);
+      background: rgba(10,10,18,0.85);
+      border: 1px solid rgba(192,132,252,0.3);
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(192,132,252,0.15);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.85), 0 0 30px rgba(192,132,252,0.2);
       transition: transform 0.3s ease, border-color 0.3s ease;
     }
     .hero-studio-console:hover {
-      border-color: rgba(192,132,252,0.45);
+      border-color: rgba(192,132,252,0.5);
       transform: translateY(-4px);
     }
 
     .console-header {
       background: rgba(255,255,255,0.04);
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 12px 18px;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .console-title { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; }
+    .console-title { font-size: 11px; font-weight: 700; color: #c084fc; letter-spacing: 0.06em; display: flex; align-items: center; gap: 6px; }
     .console-dots { display: flex; gap: 6px; }
-    .console-dots span { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .console-dots span { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
     .dot-red { background: #ff5f56; }
     .dot-yellow { background: #ffbd2e; }
     .dot-green { background: #27c93f; }
+
+    /* Video Channel Selector Bar */
+    .channel-bar {
+      display: flex; gap: 6px; padding: 8px 12px;
+      background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(255,255,255,0.06);
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .channel-bar::-webkit-scrollbar { display: none; }
+    .channel-tab {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px; padding: 4px 12px; font-size: 11px; font-weight: 500;
+      color: var(--muted); cursor: pointer; white-space: nowrap; transition: all 0.2s ease;
+    }
+    .channel-tab:hover, .channel-tab.active {
+      background: rgba(192,132,252,0.22); border-color: rgba(192,132,252,0.45);
+      color: #fff; font-weight: 600; box-shadow: 0 0 12px rgba(192,132,252,0.2);
+    }
 
     /* Video Monitor Frame */
     .console-monitor {
@@ -826,8 +844,8 @@
 
     .lower-third-badge {
       position: absolute;
-      bottom: 14px;
-      left: 14px;
+      bottom: 12px;
+      left: 12px;
       background: rgba(10,10,18,0.85);
       border-left: 3px solid #2dd4bf;
       backdrop-filter: blur(12px);
@@ -843,82 +861,47 @@
     .monitor-status {
       position: absolute;
       top: 10px; right: 12px;
-      background: rgba(0,0,0,0.65);
+      background: rgba(0,0,0,0.7);
       backdrop-filter: blur(8px);
       border-radius: 100px;
       padding: 3px 10px;
       font-size: 10px; font-weight: 600;
-      color: rgba(255,255,255,0.8);
-      display: flex; gap: 8px;
+      color: rgba(255,255,255,0.85);
+      display: flex; gap: 8px; align-items: center;
     }
+    .rec-dot { width: 6px; height: 6px; border-radius: 50%; background: #ef4444; animation: pulse 1s infinite; }
 
-    /* Console Timeline & Controls */
+    /* Multi-Track Premiere Timeline */
     .console-timeline {
-      padding: 16px;
-      background: rgba(6,6,10,0.5);
-    }
-    .track-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .track-label { font-size: 11px; font-weight: 600; color: var(--muted); }
-    .track-toggle {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--muted);
-      border-radius: 100px;
-      padding: 4px 12px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-    .track-toggle.active {
-      background: rgba(192,132,252,0.2);
-      border-color: rgba(192,132,252,0.5);
-      color: #fff;
-      box-shadow: 0 0 12px rgba(192,132,252,0.25);
+      padding: 14px 16px;
+      background: rgba(6,6,10,0.6);
     }
 
-    /* Waveform Visualizer (Idea 5) */
-    .waveform-visualizer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 3px;
-      height: 24px;
-      margin: 10px 0 12px;
-      padding: 0 4px;
+    .timeline-tracks { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+    .t-row {
+      display: flex; align-items: center; gap: 8px;
     }
-    .waveform-bar {
-      flex: 1;
-      height: 40%;
-      background: rgba(192,132,252,0.4);
-      border-radius: 2px;
-      transition: height 0.15s ease, background 0.2s ease;
+    .t-tag { font-size: 10px; font-weight: 700; color: var(--muted); width: 24px; flex-shrink: 0; }
+    
+    .t-block-wrap {
+      flex: 1; height: 26px; background: rgba(255,255,255,0.03); border-radius: 6px;
+      position: relative; overflow: hidden; display: flex; align-items: center; padding: 0 4px;
     }
-    .waveform-visualizer.audio-on .waveform-bar {
-      background: linear-gradient(to top, #60a5fa, #c084fc);
-      animation: waveBounce 0.8s ease-in-out infinite alternate;
+    .t-block {
+      height: 20px; border-radius: 4px; padding: 0 8px; font-size: 10px; font-weight: 600;
+      display: flex; align-items: center; justify-content: space-between; color: #fff; cursor: pointer;
+      transition: all 0.2s ease; width: 100%;
     }
-    .waveform-visualizer.audio-off .waveform-bar {
-      height: 15% !important;
-      background: rgba(255,255,255,0.15);
-      animation: none !important;
-    }
+    .t-block.b-lut { background: linear-gradient(90deg, rgba(167,139,250,0.4), rgba(96,165,250,0.4)); border: 1px solid rgba(167,139,250,0.5); }
+    .t-block.b-vfx { background: linear-gradient(90deg, rgba(45,212,191,0.4), rgba(52,211,153,0.4)); border: 1px solid rgba(45,212,191,0.5); }
+    .t-block.b-audio { background: linear-gradient(90deg, rgba(251,146,60,0.4), rgba(244,63,94,0.4)); border: 1px solid rgba(251,146,60,0.5); }
 
-    @keyframes waveBounce {
-      0% { height: 20%; }
-      50% { height: 90%; }
-      100% { height: 40%; }
-    }
+    .t-block.off { opacity: 0.35; filter: grayscale(0.8); }
 
-    /* Scrubber Slider (Idea 1) */
-    .scrubber-wrap { position: relative; margin-top: 6px; }
+    /* Scrubber Range Slider */
+    .scrubber-wrap { position: relative; display: flex; align-items: center; gap: 10px; margin-top: 6px; }
     .scrubber-input {
-      width: 100%;
+      flex: 1;
       -webkit-appearance: none;
       appearance: none;
       height: 4px;
@@ -936,6 +919,13 @@
       box-shadow: 0 0 10px #c084fc;
       cursor: pointer;
     }
+    .speed-btn {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 700;
+      color: var(--accent); cursor: pointer; transition: background 0.2s;
+    }
+    .speed-btn:hover { background: rgba(255,255,255,0.15); }
+
 
 </style>
 </head>
@@ -991,6 +981,14 @@
           <div class="console-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
         </div>
 
+        <!-- Video Channel Selector Bar -->
+        <div class="channel-bar">
+          <button class="channel-tab active" onclick="switchChannel('assets/videos/animation1.mp4', this)">⚡ 2D Motion Showcase</button>
+          <button class="channel-tab" onclick="switchChannel('assets/videos/anim2.mp4', this)">🎆 Intro Particle Reveal</button>
+          <button class="channel-tab" onclick="switchChannel('assets/videos/anim6.mp4', this)">🏷️ Brand Sequence</button>
+          <button class="channel-tab" onclick="switchChannel('assets/videos/social/social2.mp4', this)">📱 Commercial Reel</button>
+        </div>
+
         <div class="console-monitor">
           <video id="studioVideo" class="monitor-video lut-active" src="assets/videos/animation1.mp4" muted loop playsinline autoplay></video>
           <div id="vfxOverlay" class="monitor-vfx">
@@ -1000,55 +998,58 @@
             </div>
           </div>
           <div class="monitor-status">
+            <span class="rec-dot"></span>
             <span id="playheadTime">00:00:03</span>
             <span>4K 60FPS</span>
           </div>
         </div>
 
+        <!-- Multi-Track Premiere Timeline -->
         <div class="console-timeline">
-          <!-- Track 1: Color Grade -->
-          <div class="track-row">
-            <span class="track-label">V1 · Color LUTs</span>
-            <button class="track-toggle active" id="btnToggleLut" onclick="toggleConsoleLut()">🎨 Color Grade: ON</button>
+          <div class="timeline-tracks">
+            
+            <!-- Track 1: Color Grade -->
+            <div class="t-row">
+              <span class="t-tag">V1</span>
+              <div class="t-block-wrap">
+                <div class="t-block b-lut" id="btnToggleLut" onclick="toggleConsoleLut()">
+                  <span>🎨 Color LUTs & Grading</span>
+                  <span id="lutText">ON</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Track 2: Motion 2D VFX -->
+            <div class="t-row">
+              <span class="t-tag">V2</span>
+              <div class="t-block-wrap">
+                <div class="t-block b-vfx" id="btnToggleVfx" onclick="toggleConsoleVfx()">
+                  <span>⚡ 2D Motion Graphics & VFX</span>
+                  <span id="vfxText">ON</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Track 3: Audio Master -->
+            <div class="t-row">
+              <span class="t-tag">A1</span>
+              <div class="t-block-wrap">
+                <div class="t-block b-audio" id="btnToggleAudio" onclick="toggleConsoleAudio()">
+                  <span>🔊 Dialogue AI Noise Clean & Audio Master</span>
+                  <span id="audioText">ON</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <!-- Track 2: Motion 2D VFX -->
-          <div class="track-row">
-            <span class="track-label">V2 · Motion 2D</span>
-            <button class="track-toggle active" id="btnToggleVfx" onclick="toggleConsoleVfx()">⚡ 2D VFX: ON</button>
-          </div>
-
-          <!-- Track 3: Audio AI Clean -->
-          <div class="track-row">
-            <span class="track-label">A1 · AI Audio</span>
-            <button class="track-toggle active" id="btnToggleAudio" onclick="toggleConsoleAudio()">🔊 Audio Clean: ON</button>
-          </div>
-
-          <!-- Waveform Visualizer (Idea 5) -->
-          <div class="waveform-visualizer audio-on" id="waveformContainer">
-            <div class="waveform-bar" style="animation-delay:-0.1s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.3s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.5s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.2s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.7s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.4s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.6s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.2s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.8s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.3s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.5s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.1s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.4s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.6s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.2s"></div>
-            <div class="waveform-bar" style="animation-delay:-0.7s"></div>
-          </div>
-
-          <!-- Scrubber Range Slider (Idea 1) -->
+          <!-- Playhead Scrubber & Speed Control -->
           <div class="scrubber-wrap">
             <input type="range" class="scrubber-input" id="playheadScrubber" min="0" max="100" value="15" oninput="scrubStudioVideo(this.value)" />
+            <button class="speed-btn" id="speedBtn" onclick="toggleSpeed()">1.0x</button>
           </div>
         </div>
+
       </div>
 
     </div>
@@ -1323,136 +1324,76 @@
 </footer>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-  reveals.forEach(el => observer.observe(el));
-
-  // Nav active state
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('nav a');
-
-  const navObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(a => a.style.color = '');
-        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
-        if (active) active.style.color = 'rgba(240,240,245,1)';
-      }
-    });
-  }, { threshold: 0.4 });
-
-  sections.forEach(s => navObserver.observe(s));
-
-  // Spotlight border on glass cards
-  document.querySelectorAll('.glass').forEach(el => {
-    el.addEventListener('mousemove', e => {
-      const rect = el.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      el.style.setProperty('--mx', `${x}%`);
-      el.style.setProperty('--my', `${y}%`);
-    });
-  });
-
-  // Contact form
-  document.getElementById('btn-send').addEventListener('click', async () => {
-    const btn = document.getElementById('btn-send');
-    const name = document.getElementById('cf-name').value.trim();
-    const email = document.getElementById('cf-email').value.trim();
-    const message = document.getElementById('cf-message').value.trim();
-    if (!name || !email || !message) {
-      btn.textContent = '⚠ Vui lòng điền đầy đủ';
-      setTimeout(() => btn.textContent = 'Gửi tin nhắn →', 2500);
-      return;
-    }
-    const scriptUrl = localStorage.getItem('portfolio_script_url') || 'https://script.google.com/macros/s/AKfycbyE5UGClIbUZve_0OJk3-uM3RpekITcd9G5c2ACMHHP_htyTFW3kZZ1KK0eJxVCBFQo/exec';
-    btn.textContent = 'Đang gửi...';
-    btn.disabled = true;
-    try {
-      if (scriptUrl) {
-        await fetch(scriptUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify({ name, email, message }),
-          headers: { 'Content-Type': 'text/plain' }
-        });
-      }
-      btn.textContent = '✓ Đã gửi!';
-      btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-      document.getElementById('cf-name').value = '';
-      document.getElementById('cf-email').value = '';
-      document.getElementById('cf-message').value = '';
-    } catch(e) {
-      btn.textContent = '✓ Đã gửi!';
-      btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-    }
-    setTimeout(() => {
-      btn.textContent = 'Gửi tin nhắn →';
-      btn.style.background = '';
-      btn.disabled = false;
-    }, 3000);
-  });
-</script>
-<script src="assets/js/i18n.js"></script>
-<script src="assets/js/editor.js"></script>
-
-<script>
   let lutOn = true;
   let vfxOn = true;
   let audioOn = true;
+  let currentSpeed = 1.0;
+
+  function switchChannel(src, btn) {
+    document.querySelectorAll('.channel-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const vid = document.getElementById("studioVideo");
+    vid.src = src;
+    vid.play();
+  }
 
   function toggleConsoleLut() {
     lutOn = !lutOn;
     const vid = document.getElementById("studioVideo");
-    const btn = document.getElementById("btnToggleLut");
+    const block = document.getElementById("btnToggleLut");
+    const txt = document.getElementById("lutText");
     if (lutOn) {
       vid.className = "monitor-video lut-active";
-      btn.className = "track-toggle active";
-      btn.textContent = "🎨 Color Grade: ON";
+      block.classList.remove("off");
+      txt.textContent = "ON";
     } else {
       vid.className = "monitor-video lut-off";
-      btn.className = "track-toggle";
-      btn.textContent = "🎨 Color Grade: OFF (RAW)";
+      block.classList.add("off");
+      txt.textContent = "OFF (RAW)";
     }
   }
 
   function toggleConsoleVfx() {
     vfxOn = !vfxOn;
     const vfx = document.getElementById("vfxOverlay");
-    const btn = document.getElementById("btnToggleVfx");
+    const block = document.getElementById("btnToggleVfx");
+    const txt = document.getElementById("vfxText");
     if (vfxOn) {
       vfx.className = "monitor-vfx";
-      btn.className = "track-toggle active";
-      btn.textContent = "⚡ 2D VFX: ON";
+      block.classList.remove("off");
+      txt.textContent = "ON";
     } else {
       vfx.className = "monitor-vfx vfx-off";
-      btn.className = "track-toggle";
-      btn.textContent = "⚡ 2D VFX: OFF";
+      block.classList.add("off");
+      txt.textContent = "OFF";
     }
   }
 
   function toggleConsoleAudio() {
     audioOn = !audioOn;
-    const wave = document.getElementById("waveformContainer");
-    const btn = document.getElementById("btnToggleAudio");
+    const block = document.getElementById("btnToggleAudio");
+    const txt = document.getElementById("audioText");
     if (audioOn) {
-      wave.className = "waveform-visualizer audio-on";
-      btn.className = "track-toggle active";
-      btn.textContent = "🔊 Audio Clean: ON";
+      block.classList.remove("off");
+      txt.textContent = "ON";
     } else {
-      wave.className = "waveform-visualizer audio-off";
-      btn.className = "track-toggle";
-      btn.textContent = "🔊 Audio Clean: OFF";
+      block.classList.add("off");
+      txt.textContent = "OFF";
     }
+  }
+
+  function toggleSpeed() {
+    const vid = document.getElementById("studioVideo");
+    const btn = document.getElementById("speedBtn");
+    if (currentSpeed === 1.0) {
+      currentSpeed = 1.5;
+    } else if (currentSpeed === 1.5) {
+      currentSpeed = 2.0;
+    } else {
+      currentSpeed = 1.0;
+    }
+    vid.playbackRate = currentSpeed;
+    btn.textContent = currentSpeed + "x";
   }
 
   function scrubStudioVideo(val) {
@@ -1461,7 +1402,6 @@
     if (vid && vid.duration) {
       const targetTime = (val / 100) * vid.duration;
       vid.currentTime = targetTime;
-      
       const mins = Math.floor(targetTime / 60).toString().padStart(2, '0');
       const secs = Math.floor(targetTime % 60).toString().padStart(2, '0');
       const frames = Math.floor((targetTime % 1) * 30).toString().padStart(2, '0');
@@ -1469,7 +1409,6 @@
     }
   }
 
-  // Auto-update video time display
   const studioVid = document.getElementById("studioVideo");
   if (studioVid) {
     studioVid.addEventListener("timeupdate", () => {
