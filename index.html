@@ -1035,9 +1035,9 @@
             <div class="t-row">
               <span class="t-tag">A1</span>
               <div class="t-block-wrap">
-                <div class="t-block b-audio" id="btnToggleAudio" onclick="toggleConsoleAudio()">
-                  <span>🔊 Dialogue AI Noise Clean & Audio Master</span>
-                  <span id="audioText">ON</span>
+                <div class="t-block b-audio" id="btnToggleAudio" onclick="toggleSound()">
+                  <span>🔊 Dialogue AI Noise Clean & Video Sound</span>
+                  <span id="audioText">TẮT TIẾNG (MUTE)</span>
                 </div>
               </div>
             </div>
@@ -1047,6 +1047,7 @@
           <!-- Playhead Scrubber & Speed Control -->
           <div class="scrubber-wrap">
             <input type="range" class="scrubber-input" id="playheadScrubber" min="0" max="100" value="15" oninput="scrubStudioVideo(this.value)" />
+            <button class="speed-btn" id="soundBtn" onclick="toggleSound()" style="color:#2dd4bf;border-color:rgba(45,212,191,0.3);">🔇 Tiếng: TẮT</button>
             <button class="speed-btn" id="speedBtn" onclick="toggleSpeed()">1.0x</button>
           </div>
         </div>
@@ -1409,6 +1410,61 @@
       timeDisplay.textContent = `00:${mins}:${secs}:${frames}`;
     }
   }
+
+  let isSoundEnabled = false;
+
+  function toggleSound() {
+    const vid = document.getElementById("studioVideo");
+    const soundBtn = document.getElementById("soundBtn");
+    const audioBlock = document.getElementById("btnToggleAudio");
+    const audioText = document.getElementById("audioText");
+    
+    isSoundEnabled = !isSoundEnabled;
+    
+    if (isSoundEnabled) {
+      vid.muted = false;
+      vid.volume = 0.8;
+      soundBtn.textContent = "🔊 Tiếng: BẬT";
+      soundBtn.style.color = "#34d399";
+      soundBtn.style.borderColor = "rgba(52,211,153,0.5)";
+      if (audioBlock) audioBlock.classList.remove("off");
+      if (audioText) audioText.textContent = "BẬT TIẾNG";
+    } else {
+      vid.muted = true;
+      soundBtn.textContent = "🔇 Tiếng: TẮT";
+      soundBtn.style.color = "#2dd4bf";
+      soundBtn.style.borderColor = "rgba(45,212,191,0.3)";
+      if (audioBlock) audioBlock.classList.add("off");
+      if (audioText) audioText.textContent = "TẮT TIẾNG (MUTE)";
+    }
+  }
+
+  // Smart Scroll Audio Fade Out / Fade In Manager
+  const heroSec = document.getElementById("hero");
+  window.addEventListener("scroll", () => {
+    const vid = document.getElementById("studioVideo");
+    if (!vid || !isSoundEnabled) return;
+    
+    const rect = heroSec.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    // Check if hero is in viewport
+    if (rect.bottom < 50 || rect.top > windowHeight - 50) {
+      // Out of Hero section -> smooth mute
+      vid.volume = 0;
+      vid.muted = true;
+    } else {
+      // In Hero section -> calculate fade ratio based on scroll position
+      const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+      const ratio = Math.max(0, Math.min(1, visibleHeight / (rect.height * 0.6)));
+      vid.volume = ratio * 0.85;
+      if (ratio > 0.05) {
+        vid.muted = false;
+      } else {
+        vid.muted = true;
+      }
+    }
+  }, { passive: true });
 
   const studioVid = document.getElementById("studioVideo");
   if (studioVid) {
